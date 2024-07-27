@@ -7,6 +7,18 @@ export const conversations = [
     lastMessage: getLastMessage(1),
     timestamp: null,
   },
+  {
+    id: 2,
+    participants: [3, 1],
+    lastMessage: getLastMessage(2),
+    timestamp: null,
+  },
+  {
+    id: 3,
+    participants: [4, 1],
+    lastMessage: getLastMessage(3),
+    timestamp: null,
+  },
 ];
 
 export function getConversationsByParticipantsId(user1Id, user2Id) {

@@ -104,6 +104,20 @@ export const messages = [
     content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
     timestamp: new Date(),
   },
+  {
+    id: 7,
+    conversationId: 2,
+    senderId: 3,
+    content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
+    timestamp: new Date(),
+  },
+  {
+    id: 2,
+    conversationId: 2,
+    senderId: 1,
+    content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
+    timestamp: new Date(),
+  },
 ];
 
 export function getLastMessage(conversationId) {
@@ -112,7 +126,7 @@ export function getLastMessage(conversationId) {
   );
 
   const lastMessage =
-    currentConversationMessages[currentConversationMessages.length - 1];
+    currentConversationMessages[currentConversationMessages.length - 1] || "";
 
   return lastMessage;
 }

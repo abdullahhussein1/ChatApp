@@ -5,6 +5,7 @@ import { getContactById } from "../data/contacts";
 import { getMessagesByConversationId } from "../data/messages";
 import { user } from "../data/user";
 import { getConversationsByParticipantsId } from "../data/conversations";
+import { getColorById } from "../data/colors";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function loader({ params }) {
@@ -17,8 +18,8 @@ export default function Contact() {
   const navigate = useNavigate();
   const messagesEndRef = useRef(null);
 
+  const color = getColorById(contact.id);
   const conversation = getConversationsByParticipantsId(user.id, contact.id);
-
   const messages = getMessagesByConversationId(conversation?.id);
 
   const scrollToBottom = () => {
@@ -35,11 +36,16 @@ export default function Contact() {
         <div className="p-2 cursor-pointer" onClick={() => navigate(-1)}>
           <ChevronLeft />
         </div>
-        <div className="flex flex-none items-center justify-center size-10 bg-blue-50 rounded-full">
-          <p className="text-blue-600">
+        <div
+          className={`relative flex flex-none items-center justify-center size-10 ${color[0]} rounded-full`}
+        >
+          <p className={`${color[1]} text-sm font-medium`}>
             {contact.username.split(" ")[0][0]}
             {contact.username.split(" ")[1][0]}
           </p>
+          {contact.status === "online" && (
+            <div className="absolute bg-green-500 rounded-full size-2 bottom-0 right-[2px] ring-white ring-2"></div>
+          )}
         </div>
         <div className="flex flex-col flex-1">
           <p className="font-bold text-md">{contact.username}</p>
@@ -49,6 +55,13 @@ export default function Contact() {
         <PhoneIcon />
       </header>
       <main className="flex-1 flex flex-col gap-2 overflow-y-auto pt-32 pb-6 px-6">
+        {messages.length === 0 && (
+          <div className="flex font-medium flex-1 justify-center items-center">
+            <p className="px-3 py-2 bg-white rounded-2xl">
+              Start chat with {contact.username.split(" ")[0]}
+            </p>
+          </div>
+        )}
         {messages.map((message) => {
           if (message.senderId === user.id) {
             return (

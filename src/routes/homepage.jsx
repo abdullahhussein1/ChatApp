@@ -25,7 +25,7 @@ export default function Home() {
         <Edit />
       </header>
       <nav className="pl-8 flex gap-5 w-full flex-none overflow-x-auto">
-        <div className="flex flex-col gap-2 items-center">
+        <div className="flex flex-col cursor-pointer gap-2 items-center">
           <div className="flex flex-none items-center justify-center size-14 bg-gray-100/60  rounded-full">
             <Search />
           </div>
@@ -34,15 +34,24 @@ export default function Home() {
         {user.contactsId.length > 0 &&
           user.contactsId.map((contactId) => {
             const contact = getContactById(contactId);
+            const color = getColorById(contactId);
 
             return (
               <div
                 key={contact.id}
-                className="flex flex-col gap-2 items-center"
+                className="flex flex-col gap-2 items-center cursor-pointer"
+                onClick={() => handleChatClick(contactId)}
               >
-                <div className="flex flex-none items-center justify-center size-14 bg-gray-100/60  rounded-full">
-                  {contact.username.split(" ")[0][0]}
-                  {contact.username.split(" ")[1][0]}
+                <div
+                  className={`relative flex flex-none items-center justify-center size-14 ${color[0]} rounded-full`}
+                >
+                  <p className={`${color[1]} font-medium`}>
+                    {contact.username.split(" ")[0][0]}
+                    {contact.username.split(" ")[1][0]}
+                  </p>
+                  {contact.status === "online" && (
+                    <div className="absolute bg-green-500 rounded-full size-3 bottom-0 right-[2px] ring-white ring-[3px]"></div>
+                  )}
                 </div>
                 <p className="text-xs">{contact.username.split(" ")[0]}</p>
               </div>
@@ -63,7 +72,7 @@ export default function Home() {
             return (
               <div
                 key={contact.id}
-                className="flex justify-between hover:bg-slate-50 rounded-2xl cursor-pointer gap-4 px-3 py-2 transition-colors"
+                className="flex justify-between hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-4 px-3 py-2 transition-colors"
                 onClick={() => handleChatClick(contactId)}
               >
                 <div
@@ -74,16 +83,16 @@ export default function Home() {
                     {contact.username.split(" ")[1][0]}
                   </p>
                   {contact.status === "online" && (
-                    <div className="absolute bg-green-500 rounded-full size-3 bottom-0 right-1 border-white border-2"></div>
+                    <div className="absolute bg-green-500 rounded-full size-3 bottom-0 right-[2px] ring-white ring-[3px]"></div>
                   )}
                 </div>
                 <div className="flex flex-col flex-1 gap-1">
                   <p className="font-bold text-md">{contact.username}</p>
                   <p className="text-xs font-light text-gray-500">
-                    {conversation &&
-                    conversation?.lastMessage.senderId == user.id
+                    {conversation?.lastMessage.senderId == user.id
                       ? "You: "
-                      : getContactById(
+                      : conversation.lastMessage &&
+                        getContactById(
                           conversation?.lastMessage.senderId
                         )?.username.split(" ")[0] + ": "}
                     {conversation?.lastMessage.content ||
