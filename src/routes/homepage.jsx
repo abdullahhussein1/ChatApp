@@ -14,7 +14,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col pt-10 gap-y-5 h-screen">
+    <div className="flex flex-col animate-in slide-in-from-left pt-10 gap-y-5 h-screen">
       <header className="flex justify-between items-center px-8">
         <div className="flex flex-col">
           <p className="text-xs font-light text-gray-500">

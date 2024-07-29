@@ -31,7 +31,7 @@ export default function Contact() {
   }, [messages]);
 
   return (
-    <div className="relative flex flex-col overflow-clip h-screen bg-gray-100">
+    <div className="relative animate-in slide-in-from-right flex flex-col overflow-clip h-screen bg-gray-100">
       <header className="absolute z-50 w-full flex bg-white/95 backdrop-blur-2xl justify-between items-center gap-2 p-6 pt-10">
         <div className="p-2 cursor-pointer" onClick={() => navigate(-1)}>
           <ChevronLeft />
