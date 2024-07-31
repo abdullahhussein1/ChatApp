@@ -1,139 +1,138 @@
 export const messages = [
   {
     id: 1,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "Assalamu alaikum",
     timestamp: new Date(),
   },
   {
     id: 2,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "Wa alaikum assalam",
     timestamp: new Date(),
   },
   {
     id: 3,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "kuy bram",
     timestamp: new Date(),
   },
   {
     id: 4,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "alhamdulillah, waz3t kwa atu?",
     timestamp: new Date(),
   },
   {
     id: 2,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "Wa alaikum assalam",
     timestamp: new Date(),
   },
   {
     id: 3,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "kuy bram",
     timestamp: new Date(),
   },
   {
     id: 4,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "alhamdulillah, waz3t kwa atu?",
     timestamp: new Date(),
   },
   {
     id: 2,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "Wa alaikum assalam",
     timestamp: new Date(),
   },
   {
     id: 3,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "kuy bram",
     timestamp: new Date(),
   },
   {
     id: 4,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "alhamdulillah, waz3t kwa atu?",
     timestamp: new Date(),
   },
   {
     id: 2,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "Wa alaikum assalam",
     timestamp: new Date(),
   },
   {
     id: 3,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "kuy bram",
     timestamp: new Date(),
   },
   {
     id: 4,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "alhamdulillah, waz3t kwa atu?",
     timestamp: new Date(),
   },
   {
     id: 5,
-    conversationId: 1,
+    chatId: 1,
     senderId: 1,
     content: "لە فەزڵی پەروەردگار زۆر باشم بەڵام خوشک و براکانم لە ئازاردان",
     timestamp: new Date(),
   },
   {
     id: 6,
-    conversationId: 1,
+    chatId: 1,
     senderId: 2,
     content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
     timestamp: new Date(),
   },
   {
     id: 7,
-    conversationId: 2,
+    chatId: 2,
     senderId: 3,
     content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
     timestamp: new Date(),
   },
   {
     id: 2,
-    conversationId: 2,
+    chatId: 2,
     senderId: 1,
     content: "خوای گەورە دەرووی خێریان لێبکاتەوە، بەڕاستی ئازارێکی قورسە",
     timestamp: new Date(),
   },
 ];
 
-export function getLastMessage(conversationId) {
-  const currentConversationMessages = messages.filter(
-    (message) => message.conversationId === conversationId
+export function getLastMessage(chatId) {
+  const currentchatMessages = messages.filter(
+    (message) => message.chatId === chatId
   );
 
-  const lastMessage =
-    currentConversationMessages[currentConversationMessages.length - 1] || "";
+  const lastMessage = currentchatMessages[currentchatMessages.length - 1] || "";
 
   return lastMessage;
 }
 
-export function getMessagesByConversationId(conversationId) {
+export function getMessagesBychatId(chatId) {
   const filteredMessages = messages.filter(
-    (message) => message.conversationId === conversationId
+    (message) => message.chatId === chatId
   );
 
   return filteredMessages;

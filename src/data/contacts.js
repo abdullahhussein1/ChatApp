@@ -11,21 +11,21 @@ export const contacts = [
     username: "Ali Umed",
     email: "ali@gmail.com",
     status: "offline",
-    contacts: [],
+    contactsId: [],
   },
   {
     id: 3,
     username: "Muhammed Yasin",
     email: "muhammed@gmail.com",
     status: "online",
-    contacts: [],
+    contactsId: [],
   },
   {
     id: 4,
     username: "Omer Rzgar",
     email: "omer@gmail.com",
     status: "online",
-    contacts: [],
+    contactsId: [],
   },
 ];
 

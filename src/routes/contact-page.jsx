@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUp, ChevronLeft, PhoneIcon, VideoIcon } from "lucide-react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { getContactById } from "../data/contacts";
-import { getMessagesByConversationId } from "../data/messages";
+import { getMessagesBychatId } from "../data/messages";
 import { user } from "../data/user";
-import { getConversationsByParticipantsId } from "../data/conversations";
 import { getColorById } from "../data/colors";
+import { getChatsByParticipantsId } from "../features/chats/chats";
+import { useDispatch, useSelector } from "react-redux";
+import { chatStarted } from "../features/chats/chatsSlice";
+import bgImage from "../assets/palestine.png";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function loader({ params }) {
@@ -16,11 +19,22 @@ export function loader({ params }) {
 export default function Contact() {
   const contact = useLoaderData();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [messageInput, setMessageInput] = useState("");
+
   const messagesEndRef = useRef(null);
+  const chats = useSelector((state) => state.chats);
 
   const color = getColorById(contact.id);
-  const conversation = getConversationsByParticipantsId(user.id, contact.id);
-  const messages = getMessagesByConversationId(conversation?.id);
+  const chat = getChatsByParticipantsId(chats, user.id, contact.id);
+  const messages = getMessagesBychatId(chat?.id);
+
+  const handleSendMessage = () => {
+    if (!messageInput) return;
+    dispatch(chatStarted(user.id, contact.id));
+    setMessageInput("");
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -54,9 +68,15 @@ export default function Contact() {
         <VideoIcon className="mr-3" />
         <PhoneIcon />
       </header>
-      <main className="flex-1 flex flex-col gap-2 overflow-y-auto pt-32 pb-6 px-6">
+      <main className="relative flex-1 flex items-center flex-col gap-2 overflow-y-auto pt-32 pb-6 px-6">
+        <img
+          src={bgImage}
+          alt="chat background image"
+          className="fixed opacity-30"
+          draggable="false"
+        />
         {messages.length === 0 && (
-          <div className="flex font-medium flex-1 justify-center items-center">
+          <div className="flex font-medium flex-1 z-20 justify-center items-center">
             <p className="px-3 py-2 bg-white rounded-2xl">
               Start chat with {contact.username.split(" ")[0]}
             </p>
@@ -67,9 +87,9 @@ export default function Contact() {
             return (
               <div
                 key={message.id}
-                className="self-end w-fit flex flex-col gap-1 max-w-96"
+                className="self-end w-fit flex z-20 flex-col gap-1 max-w-96"
               >
-                <div className="bg-blue-500 flex flex-col text-white px-4 py-2 rounded-3xl">
+                <div className="bg-blue-500/70 backdrop-blur-sm flex flex-col text-white px-4 py-2 rounded-3xl">
                   <p>{message.content}</p>
                 </div>
                 <p className="text-xs text-gray-400">
@@ -81,7 +101,7 @@ export default function Contact() {
             return (
               <div
                 key={message.id}
-                className="w-fit flex flex-col gap-1 max-w-96"
+                className="w-fit flex self-start flex-col z-20 gap-1 max-w-96"
               >
                 <div className="bg-white px-4 py-2 rounded-3xl">
                   <p>{message.content}</p>
@@ -99,12 +119,17 @@ export default function Contact() {
         <div className="absolute -top-5 w-full h-5 bg-gradient-to-t from-gray-100 via-gray-100 to-transparent"></div>
         <input
           type="text"
+          value={messageInput}
+          onChange={(e) => setMessageInput(e.target.value)}
           className="h-fit p-3 outline-none rounded-full w-full"
           placeholder="Type message..."
         />
-        <div className="absolute right-8 bg-blue-500 p-1 rounded-full text-white">
+        <button
+          onClick={handleSendMessage}
+          className="absolute right-8 bg-blue-500 p-1 rounded-full text-white"
+        >
           <ArrowUp />
-        </div>
+        </button>
       </footer>
     </div>
   );

@@ -20,5 +20,3 @@ export function getColorById(contactId) {
 
   return color;
 }
-
-console.log(getColorById(1));
