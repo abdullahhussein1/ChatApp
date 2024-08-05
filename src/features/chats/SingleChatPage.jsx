@@ -93,45 +93,63 @@ export default function SingleChatPage() {
                 key={message.id}
                 className={`flex justify-end items-end w-full z-20 gap-[2px] ${
                   messages[i + 1]?.senderId === message?.senderId
-                    ? "mb-1"
+                    ? "mb-[2px]"
                     : "mb-2"
                 }`}
               >
-                <div className="bg-blue-500 w-fit flex flex-col max-w-96 text-white px-4 py-2 rounded-3xl">
+                <div
+                  className={`bg-gradient-to-r from-indigo-400 to-violet-500 w-fit flex flex-col shadow-2xl shadow-gray-400/70 max-w-96 text-white px-3 py-2 ${
+                    messages[i + 1]?.senderId === message?.senderId &&
+                    messages[i - 1]?.senderId === message?.senderId
+                      ? "rounded-l-2xl rounded-r-none"
+                      : messages[i + 1]?.senderId === message?.senderId
+                      ? "rounded-l-2xl rounded-tr-2xl rounded-br-none"
+                      : messages[i - 1]?.senderId === message?.senderId
+                      ? "rounded-l-2xl rounded-br-2xl rounded-tr-none"
+                      : "rounded-2xl"
+                  }`}
+                >
                   <p>{message.content}</p>
-                </div>
-                {messages[i + 1]?.senderId !== message?.senderId && (
-                  <p className="text-xs -order-1 text-gray-400">
+                  <p className="text-[11px] text-white/80 self-end">
                     {message.timestamp.slice(0, 5)}
                   </p>
-                )}
+                </div>
               </div>
             );
           } else {
             return (
               <div
                 key={message.id}
-                className={`flex justify-start items-end w-full z-20 gap-[2px] ${
+                className={`flex justify-start w-full z-20 gap-[2px] ${
                   messages[i + 1]?.senderId === message?.senderId
-                    ? "mb-1"
+                    ? "mb-[2px]"
                     : "mb-2"
                 }`}
               >
-                <div className="bg-white px-4 py-2 rounded-3xl w-fit max-w-96">
+                <div
+                  className={`bg-white w-fit shadow-2xl shadow-gray-400/70 flex flex-col max-w-96 px-3 py-2 ${
+                    messages[i + 1]?.senderId === message?.senderId &&
+                    messages[i - 1]?.senderId === message?.senderId
+                      ? "rounded-r-2xl rounded-l-none"
+                      : messages[i + 1]?.senderId === message?.senderId
+                      ? "rounded-r-2xl rounded-tl-2xl rounded-bl-none"
+                      : messages[i - 1]?.senderId === message?.senderId
+                      ? "rounded-r-2xl rounded-bl-2xl rounded-tl-none"
+                      : "rounded-2xl"
+                  }`}
+                >
                   <p>{message.content}</p>
-                </div>
-                {messages[i + 1]?.senderId !== message?.senderId && (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-[11px] text-black/40 self-end">
                     {message.timestamp.slice(0, 5)}
                   </p>
-                )}
+                </div>
               </div>
             );
           }
         })}
         <div ref={messagesEndRef} />
       </main>
-      <footer className="px-6 pb-6 relative flex items-center">
+      <footer className="px-6 pb-6 -mt-4 z-50 relative flex items-center">
         <input
           type="text"
           value={messageInput}
@@ -141,12 +159,12 @@ export default function SingleChatPage() {
               handleSendMessage();
             }
           }}
-          className="h-fit p-3 outline-none rounded-full w-full"
+          className="h-fit p-3 pr-11 shadow-2xl shadow-black outline-none rounded-full w-full"
           placeholder="Type message..."
         />
         <button
           onClick={handleSendMessage}
-          className="absolute right-8 bg-blue-500 p-1 rounded-full text-white"
+          className="absolute right-8 bg-gradient-to-b from-indigo-400 to-violet-500 p-1 rounded-full text-white"
         >
           <ArrowUp />
         </button>

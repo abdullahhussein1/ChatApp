@@ -41,13 +41,27 @@ const initialState = [
     chatId: 1,
     senderId: 1,
     content: "kuy bram",
-    timestamp: new Date().toTimeString(),
+    timestamp: new Date("2/2/1999").toTimeString(),
   },
   {
     id: 1,
     chatId: 1,
     senderId: 1,
     content: "Assalamu alaikum",
+    timestamp: new Date().toTimeString(),
+  },
+  {
+    id: 2,
+    chatId: 1,
+    senderId: 2,
+    content: "Wa alaikum assalam Wa alaikum assalam",
+    timestamp: new Date().toTimeString(),
+  },
+  {
+    id: 2,
+    chatId: 1,
+    senderId: 2,
+    content: "Wa alaikum assalam",
     timestamp: new Date().toTimeString(),
   },
   {

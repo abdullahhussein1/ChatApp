@@ -6,11 +6,6 @@ const initialState = [
     participants: [1, 2],
     timestamp: null,
   },
-  {
-    id: 2,
-    participants: [1, 3],
-    timestamp: null,
-  },
 ];
 
 const chatsSlice = createSlice({
