@@ -3,9 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./routes/homepage.jsx";
-import Contact, { loader as contactLoader } from "./routes/contact-page.jsx";
 import { Provider } from "react-redux";
 import store from "./app/store.js";
+import SingleChatPage, {
+  loader as singleChatPageLoader,
+} from "./features/chats/SingleChatPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/contacts/:contactId",
-    element: <Contact />,
-    loader: contactLoader,
+    element: <SingleChatPage />,
+    loader: singleChatPageLoader,
   },
 ]);
 

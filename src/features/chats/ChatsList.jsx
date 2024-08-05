@@ -4,11 +4,13 @@ import { getContactById } from "../../data/contacts";
 import { user } from "../../data/user";
 import { PinIcon } from "lucide-react";
 import { useSelector } from "react-redux";
-import { getChatsByParticipantsId, getUserChatsByUserId } from "./chats";
+import { getChatByParticipantsId, getUserChatsByUserId } from "./chats";
+import { getLastMessage } from "../../data/messages";
 
 export default function ChatsList() {
   const navigate = useNavigate();
   const chats = useSelector((state) => state.chats);
+  const messages = useSelector((state) => state.messages);
 
   const userChats = getUserChatsByUserId(chats, user.id);
 
@@ -17,7 +19,9 @@ export default function ChatsList() {
     userChats.map((contactId) => {
       const color = getColorById(contactId);
       const contact = getContactById(contactId);
-      const chat = getChatsByParticipantsId(chats, user.id, contactId);
+      const chat = getChatByParticipantsId(chats, user.id, contactId);
+
+      const lastMessage = getLastMessage(messages, chat.id);
 
       function handleChatClick(contactId) {
         navigate(`/contacts/${contactId}`);
@@ -43,13 +47,12 @@ export default function ChatsList() {
           <div className="flex flex-col flex-1 gap-1">
             <p className="font-bold text-md">{contact.username}</p>
             <p className="text-xs font-light text-gray-500">
-              {chat?.lastMessage.senderId == user.id
+              {lastMessage.senderId == user.id
                 ? "You: "
-                : chat?.lastMessage &&
-                  getContactById(chat?.lastMessage.senderId)?.username.split(
-                    " "
-                  )[0] + ": "}
-              {chat?.lastMessage.content ||
+                : lastMessage &&
+                  getContactById(lastMessage.senderId)?.username.split(" ")[0] +
+                    ": "}
+              {lastMessage.content ||
                 `Say salamu alaik to ${contact.username.split(" ")[0]}`}
             </p>
           </div>

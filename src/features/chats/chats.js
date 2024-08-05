@@ -8,7 +8,7 @@ export const getUserChatsByUserId = (chats, userId) => {
   return userChats;
 };
 
-export const getChatsByParticipantsId = (chats, user1Id, user2Id) => {
+export const getChatByParticipantsId = (chats, user1Id, user2Id) => {
   const chat = chats.find(
     (chat) =>
       chat.participants.includes(user1Id) && chat.participants.includes(user2Id)

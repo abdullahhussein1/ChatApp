@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, ChevronLeft, PhoneIcon, VideoIcon } from "lucide-react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { getContactById } from "../data/contacts";
-import { getMessagesBychatId } from "../data/messages";
-import { user } from "../data/user";
-import { getColorById } from "../data/colors";
-import { getChatsByParticipantsId } from "../features/chats/chats";
+import { getContactById } from "../../data/contacts";
+import { getMessagesBychatId } from "../../data/messages";
+import { user } from "../../data/user";
+import { getColorById } from "../../data/colors";
+import { getChatByParticipantsId } from "./chats";
 import { useDispatch, useSelector } from "react-redux";
-import { chatStarted } from "../features/chats/chatsSlice";
-import bgImage from "../assets/palestine.png";
+import { chatStarted } from "./chatsSlice";
+import bgImage from "../../assets/chat-bg-2.jpeg";
+import { messageSended } from "../messages/messagesSlice";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function loader({ params }) {
@@ -16,7 +17,7 @@ export function loader({ params }) {
   return contact;
 }
 
-export default function Contact() {
+export default function SingleChatPage() {
   const contact = useLoaderData();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,14 +26,16 @@ export default function Contact() {
 
   const messagesEndRef = useRef(null);
   const chats = useSelector((state) => state.chats);
+  const messagesState = useSelector((state) => state.messages);
 
   const color = getColorById(contact.id);
-  const chat = getChatsByParticipantsId(chats, user.id, contact.id);
-  const messages = getMessagesBychatId(chat?.id);
+  const chat = getChatByParticipantsId(chats, user.id, contact.id);
+  const messages = getMessagesBychatId(messagesState, chat?.id);
 
   const handleSendMessage = () => {
     if (!messageInput) return;
     dispatch(chatStarted(user.id, contact.id));
+    dispatch(messageSended(chat.id, user.id, messageInput));
     setMessageInput("");
   };
 
@@ -45,9 +48,15 @@ export default function Contact() {
   }, [messages]);
 
   return (
-    <div className="relative animate-in slide-in-from-right flex flex-col overflow-clip h-screen bg-gray-100">
+    <div className="relative animate-in slide-in-from-right duration-300 flex max-w-full flex-col w-full h-screen bg-gray-100">
+      <img
+        src={bgImage}
+        alt="chat background image"
+        className="absolute select-none w-auto h-full -hue-rotate-15"
+        draggable="false"
+      />
       <header className="absolute z-50 w-full flex bg-white/95 backdrop-blur-2xl justify-between items-center gap-2 p-6 pt-10">
-        <div className="p-2 cursor-pointer" onClick={() => navigate(-1)}>
+        <div className="pr-2 cursor-pointer" onClick={() => navigate(-1)}>
           <ChevronLeft />
         </div>
         <div
@@ -68,13 +77,7 @@ export default function Contact() {
         <VideoIcon className="mr-3" />
         <PhoneIcon />
       </header>
-      <main className="relative flex-1 flex items-center flex-col gap-2 overflow-y-auto pt-32 pb-6 px-6">
-        <img
-          src={bgImage}
-          alt="chat background image"
-          className="fixed opacity-30"
-          draggable="false"
-        />
+      <main className="flex-1 flex items-center flex-col overflow-y-scroll pt-32 pb-6 px-6">
         {messages.length === 0 && (
           <div className="flex font-medium flex-1 z-20 justify-center items-center">
             <p className="px-3 py-2 bg-white rounded-2xl">
@@ -82,33 +85,46 @@ export default function Contact() {
             </p>
           </div>
         )}
-        {messages.map((message) => {
+        <div className="mt-auto"></div>
+        {messages.map((message, i) => {
           if (message.senderId === user.id) {
             return (
               <div
                 key={message.id}
-                className="self-end w-fit flex z-20 flex-col gap-1 max-w-96"
+                className={`flex justify-end items-end w-full z-20 gap-[2px] ${
+                  messages[i + 1]?.senderId === message?.senderId
+                    ? "mb-1"
+                    : "mb-2"
+                }`}
               >
-                <div className="bg-blue-500/70 backdrop-blur-sm flex flex-col text-white px-4 py-2 rounded-3xl">
+                <div className="bg-blue-500 w-fit flex flex-col max-w-96 text-white px-4 py-2 rounded-3xl">
                   <p>{message.content}</p>
                 </div>
-                <p className="text-xs text-gray-400">
-                  {message.timestamp.toTimeString().slice(0, 5)}
-                </p>
+                {messages[i + 1]?.senderId !== message?.senderId && (
+                  <p className="text-xs -order-1 text-gray-400">
+                    {message.timestamp.slice(0, 5)}
+                  </p>
+                )}
               </div>
             );
           } else {
             return (
               <div
                 key={message.id}
-                className="w-fit flex self-start flex-col z-20 gap-1 max-w-96"
+                className={`flex justify-start items-end w-full z-20 gap-[2px] ${
+                  messages[i + 1]?.senderId === message?.senderId
+                    ? "mb-1"
+                    : "mb-2"
+                }`}
               >
-                <div className="bg-white px-4 py-2 rounded-3xl">
+                <div className="bg-white px-4 py-2 rounded-3xl w-fit max-w-96">
                   <p>{message.content}</p>
                 </div>
-                <p className="text-xs text-gray-400 self-end">
-                  {message.timestamp.toTimeString().slice(0, 5)}
-                </p>
+                {messages[i + 1]?.senderId !== message?.senderId && (
+                  <p className="text-xs text-gray-400">
+                    {message.timestamp.slice(0, 5)}
+                  </p>
+                )}
               </div>
             );
           }
@@ -116,11 +132,15 @@ export default function Contact() {
         <div ref={messagesEndRef} />
       </main>
       <footer className="px-6 pb-6 relative flex items-center">
-        <div className="absolute -top-5 w-full h-5 bg-gradient-to-t from-gray-100 via-gray-100 to-transparent"></div>
         <input
           type="text"
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              handleSendMessage();
+            }
+          }}
           className="h-fit p-3 outline-none rounded-full w-full"
           placeholder="Type message..."
         />

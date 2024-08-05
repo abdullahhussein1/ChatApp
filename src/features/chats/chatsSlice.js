@@ -1,17 +1,14 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { getLastMessage } from "../../data/messages";
 
 const initialState = [
   {
     id: 1,
     participants: [1, 2],
-    lastMessage: getLastMessage(1),
     timestamp: null,
   },
   {
     id: 2,
     participants: [1, 3],
-    lastMessage: getLastMessage(2),
     timestamp: null,
   },
 ];
@@ -38,8 +35,7 @@ const chatsSlice = createSlice({
           payload: {
             id: generatedId,
             participants: [user1Id, user2Id],
-            lastMessage: getLastMessage(generatedId),
-            timestamp: new Date(),
+            timestamp: new Date().toTimeString(),
           },
         };
       },
