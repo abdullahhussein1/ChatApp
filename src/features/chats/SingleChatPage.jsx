@@ -24,6 +24,8 @@ export default function SingleChatPage() {
 
   const [messageInput, setMessageInput] = useState("");
 
+  const userr = useSelector((state) => state.user);
+
   const messagesEndRef = useRef(null);
   const chats = useSelector((state) => state.chats);
   const messagesState = useSelector((state) => state.messages);
@@ -55,7 +57,7 @@ export default function SingleChatPage() {
         className="absolute select-none w-auto h-full -hue-rotate-15"
         draggable="false"
       />
-      <header className="absolute z-50 w-full flex bg-white/95 backdrop-blur-2xl justify-between items-center gap-2 p-6 pt-10">
+      <header className="absolute z-50 w-full flex bg-white/90 backdrop-blur-2xl justify-between items-center gap-2 p-6 pt-10">
         <div className="pr-2 cursor-pointer" onClick={() => navigate(-1)}>
           <ChevronLeft />
         </div>
@@ -79,8 +81,8 @@ export default function SingleChatPage() {
       </header>
       <main className="flex-1 flex items-center flex-col overflow-y-scroll pt-32 pb-6 px-6">
         {messages.length === 0 && (
-          <div className="flex font-medium flex-1 z-20 justify-center items-center">
-            <p className="px-3 py-2 bg-white rounded-2xl">
+          <div className="flex font-medium  flex-1 z-20 justify-center items-center">
+            <p className="px-3 py-2 bg-white rounded-2xl shadow-2xl shadow-gray-500">
               Start chat with {contact.username.split(" ")[0]}
             </p>
           </div>
@@ -91,14 +93,14 @@ export default function SingleChatPage() {
             return (
               <div
                 key={message.id}
-                className={`flex justify-end items-end w-full z-20 gap-[2px] ${
+                className={`flex justify-end items-end w-full z-20 gap-1 ${
                   messages[i + 1]?.senderId === message?.senderId
                     ? "mb-[2px]"
-                    : "mb-2"
+                    : "mb-3"
                 }`}
               >
                 <div
-                  className={`bg-gradient-to-r from-indigo-400 to-violet-500 w-fit flex flex-col shadow-2xl shadow-gray-400/70 max-w-96 text-white px-3 py-2 ${
+                  className={`bg-gradient-to-r from-indigo-400 to-violet-500 w-fit flex flex-col shadow-2xl shadow-gray-400/70 max-w-96 text-white px-3 py-[6px] ${
                     messages[i + 1]?.senderId === message?.senderId &&
                     messages[i - 1]?.senderId === message?.senderId
                       ? "rounded-l-2xl rounded-r-none"
@@ -107,6 +109,8 @@ export default function SingleChatPage() {
                       : messages[i - 1]?.senderId === message?.senderId
                       ? "rounded-l-2xl rounded-br-2xl rounded-tr-none"
                       : "rounded-2xl"
+                  } ${
+                    messages[i + 1]?.senderId === message?.senderId && "mr-9"
                   }`}
                 >
                   <p>{message.content}</p>
@@ -114,18 +118,35 @@ export default function SingleChatPage() {
                     {message.timestamp.slice(0, 5)}
                   </p>
                 </div>
+                {messages[i + 1]?.senderId !== message?.senderId && (
+                  <img
+                    src={userr.photoUrl}
+                    alt="User Profile"
+                    className="size-8 rounded-full border"
+                  />
+                )}
               </div>
             );
           } else {
             return (
               <div
                 key={message.id}
-                className={`flex justify-start w-full z-20 gap-[2px] ${
+                className={`flex justify-start items-end w-full z-20 gap-1 ${
                   messages[i + 1]?.senderId === message?.senderId
                     ? "mb-[2px]"
-                    : "mb-2"
+                    : "mb-3"
                 }`}
               >
+                {messages[i + 1]?.senderId !== message?.senderId && (
+                  <div
+                    className={`relative flex items-center justify-center size-8 ${color[0]} rounded-full`}
+                  >
+                    <p className={`${color[1]} text-sm font-medium`}>
+                      {contact.username.split(" ")[0][0]}
+                      {contact.username.split(" ")[1][0]}
+                    </p>
+                  </div>
+                )}
                 <div
                   className={`bg-white w-fit shadow-2xl shadow-gray-400/70 flex flex-col max-w-96 px-3 py-2 ${
                     messages[i + 1]?.senderId === message?.senderId &&
@@ -136,6 +157,8 @@ export default function SingleChatPage() {
                       : messages[i - 1]?.senderId === message?.senderId
                       ? "rounded-r-2xl rounded-bl-2xl rounded-tl-none"
                       : "rounded-2xl"
+                  } ${
+                    messages[i + 1]?.senderId === message?.senderId && "ml-9"
                   }`}
                 >
                   <p>{message.content}</p>
@@ -149,7 +172,7 @@ export default function SingleChatPage() {
         })}
         <div ref={messagesEndRef} />
       </main>
-      <footer className="px-6 pb-6 -mt-4 z-50 relative flex items-center">
+      <footer className="px-6 pb-6 -mt-4 z-50 relative justify-center flex items-center">
         <input
           type="text"
           value={messageInput}
@@ -168,6 +191,14 @@ export default function SingleChatPage() {
         >
           <ArrowUp />
         </button>
+        {
+          <button
+            onClick={scrollToBottom}
+            className="absolute -top-12 -rotate-90 bg-gradient-to-b bg-white/90 backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
+          >
+            <ChevronLeft />
+          </button>
+        }
       </footer>
     </div>
   );

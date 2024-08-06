@@ -8,10 +8,27 @@ import SingleChatPage, {
   loader as singleChatPageLoader,
 } from "./features/chats/SingleChatPage.jsx";
 import Auth from "./routes/authpage.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "./firebase/firebase.js";
+import { useEffect } from "react";
+import { signedIn, signedOut } from "./features/user/userSlice.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function App() {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        dispatch(signedIn(currentUser));
+      } else {
+        dispatch(signedOut());
+      }
+    });
+
+    return () => unsubscribe();
+  }, [dispatch]);
 
   const router = createBrowserRouter([
     {
@@ -24,7 +41,7 @@ export default function App() {
     },
     {
       path: "/contacts/:contactId",
-      element: <SingleChatPage />,
+      element: user ? <SingleChatPage /> : <Navigate to="/auth" />,
       loader: singleChatPageLoader,
     },
   ]);

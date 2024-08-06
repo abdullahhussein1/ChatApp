@@ -1,5 +1,5 @@
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase/firebase";
+import { auth, googleProvider } from "../firebase/firebase";
 import logo from "../assets/chat.png";
 import google from "../assets/google.png";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ export default function Auth() {
   const dispatch = useDispatch();
 
   const handleSignIn = async () => {
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, googleProvider);
 
     dispatch(signedIn(result.user));
   };

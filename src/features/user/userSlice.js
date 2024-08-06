@@ -16,6 +16,7 @@ const userSlice = createSlice({
             id: user.uid,
             username: user.displayName,
             email: user.email,
+            photoUrl: user.photoURL,
           },
         };
       },
