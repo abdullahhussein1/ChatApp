@@ -8,11 +8,16 @@ import store from "./app/store.js";
 import SingleChatPage, {
   loader as singleChatPageLoader,
 } from "./features/chats/SingleChatPage.jsx";
+import Auth from "./routes/authpage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
   },
   {
     path: "/contacts/:contactId",
