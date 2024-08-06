@@ -2,12 +2,16 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/firebase";
 import logo from "../assets/chat.png";
 import google from "../assets/google.png";
+import { useDispatch } from "react-redux";
+import { signedIn } from "../features/user/userSlice";
 
 export default function Auth() {
+  const dispatch = useDispatch();
+
   const handleSignIn = async () => {
     const result = await signInWithPopup(auth, provider);
 
-    console.log(result.user);
+    dispatch(signedIn(result.user));
   };
 
   return (
@@ -19,7 +23,7 @@ export default function Auth() {
         </div>
         <button
           onClick={handleSignIn}
-          className="flex gap-2 items-center justify-center transition-colors border border-gray-200/80 rounded-2xl w-11/12 font-bold px-3 py-2 hover:bg-gray-50"
+          className="flex gap-2 items-center hover:tracking-tight justify-center transition-all border border-gray-200/80 rounded-2xl w-11/12 font-bold px-3 py-2 hover:bg-gray-50"
         >
           <img src={google} alt="google icon" className="size-5" />
           <p>Sign in with Google</p>

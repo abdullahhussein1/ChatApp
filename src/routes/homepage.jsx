@@ -4,9 +4,11 @@ import { user as UserData } from "../data/user";
 import { getContactById } from "../data/contacts";
 import { useNavigate } from "react-router-dom";
 import ChatsList from "../features/chats/ChatsList";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const navigate = useNavigate();
+  const userr = useSelector((state) => state.user);
 
   const user = UserData;
 
@@ -19,7 +21,7 @@ export default function Home() {
       <header className="flex justify-between items-center px-8">
         <div className="flex flex-col">
           <p className="text-xs font-light text-gray-500">
-            Assalamu Alaik {user.username.split(" ")[0]},
+            Assalamu Alaik {userr.username.split(" ")[0]},
           </p>
           <p className="font-bold text-lg">Chat App Message</p>
         </div>
