@@ -94,6 +94,7 @@ export default function SingleChatPage() {
               <div
                 key={message.id}
                 className={`flex justify-end items-end w-full z-20 gap-1 ${
+                  // FIXME: creats chat scroll issues, change it to padding in a seperate div
                   messages[i + 1]?.senderId === message?.senderId
                     ? "mb-[2px]"
                     : "mb-3"
