@@ -52,11 +52,6 @@ export default function App() {
       path: "/auth",
       element: !user ? <Auth /> : <Navigate to="/" />,
     },
-    {
-      path: "/contacts/:contactId",
-      element: user ? <SingleChatPage /> : <Navigate to="/auth" />,
-      loader: singleChatPageLoader,
-    },
   ]);
 
   if (!user) return <SplashScreen />;

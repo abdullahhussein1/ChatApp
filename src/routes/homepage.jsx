@@ -4,11 +4,16 @@ import { user as UserData } from "../data/user";
 import { getContactById } from "../data/contacts";
 import { Outlet, useNavigate } from "react-router-dom";
 import ChatsList from "../features/chats/ChatsList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { signedOut } from "../features/user/userSlice";
+import { signOut } from "firebase/auth";
 
 export default function Home() {
   const navigate = useNavigate();
   const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [isUserInfoModalShown, setIsUserInfoModalShown] = useState(false);
 
   const user = UserData;
 
@@ -16,16 +21,57 @@ export default function Home() {
     navigate(`/contacts/${contactId}`);
   }
 
+  const handleSignOutClicked = () => {
+    signOut();
+    dispatch(signedOut());
+  };
+
   return (
-    <div className="bg-gray-50 px-5 h-dvh flex items-center justify-center">
-      <div className="grid grid-cols-2 shadow-2xl shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
-        <div className="flex flex-col z-50 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5">
-          <header className="flex justify-between items-center px-6">
-            <button className="flex gap-2 items-center hover:bg-gray-50/80 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl">
+    <div className="relative bg-gray-50 px-5 h-dvh flex items-center justify-center">
+      {isUserInfoModalShown && (
+        <div
+          onClick={() => setIsUserInfoModalShown(false)}
+          className="flex items-center justify-center w-full h-full bg-white/25  z-50 absolute"
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="absolute grid grid-cols-1 md:grid-cols-2 gap-5 max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-lg p-5 w-2/3 z-50"
+          >
+            <div className="flex items-center justify-center">
               <img
+                draggable="false"
                 src={userr.photoUrl}
                 alt="User Profile"
-                className="size-10 rounded-full border"
+                className="size-20 select-none rounded-full border shadow-2xl"
+              />
+            </div>
+            <div className="flex flex-col gap-1 items-center md:items-start">
+              <p className="font-bold">{userr.username}</p>
+              <p className="text-sm opacity-70">{userr.email}</p>
+            </div>
+            <button
+              onClick={handleSignOutClicked}
+              className="w-full col-span-full font-medium bg-gray-400/10 border border-gray-200 hover:bg-gray-400/15 hover:tracking-tight transition-all rounded-2xl p-2"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="grid grid-cols-2 shadow-2xl shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
+        <div className="flex flex-col z-40 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5">
+          <header className="flex justify-between items-center px-6">
+            <button
+              onClick={() => setIsUserInfoModalShown(true)}
+              className="flex gap-2 items-center hover:bg-gray-50/80 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl"
+            >
+              <img
+                draggable="false"
+                src={userr.photoUrl}
+                alt="User Profile"
+                className="size-10 rounded-full  select-none border"
               />
               <p className="font-bold">{userr.username}</p>
             </button>
