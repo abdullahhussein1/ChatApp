@@ -50,7 +50,7 @@ export default function SingleChatPage() {
   }, [messages]);
 
   return (
-    <div className="relative animate-in slide-in-from-right duration-300 flex max-w-full flex-col w-full h-screen bg-gray-100">
+    <div className="relative animate-in slide-in-from-right duration-300 flex max-w-full flex-col w-full h-[100dvh] bg-gray-100">
       <img
         src={bgImage}
         alt="chat background image"
