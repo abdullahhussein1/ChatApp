@@ -17,7 +17,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col animate-in slide-in-from-left duration-300 pt-10 gap-y-5 h-[100dvh]">
+    <div className="flex flex-col animate-in slide-in-from-left duration-300 overflow-hidden pt-10 gap-y-5 h-[100dvh]">
       <header className="flex justify-between items-center px-6">
         <button className="flex gap-2 items-center hover:bg-gray-50/60 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl">
           <img
