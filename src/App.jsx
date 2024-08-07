@@ -13,6 +13,7 @@ import { auth } from "./firebase/firebase.js";
 import { useEffect } from "react";
 import { signedIn, signedOut } from "./features/user/userSlice.js";
 import { onAuthStateChanged } from "firebase/auth";
+import Index from "./routes/index.jsx";
 
 export default function App() {
   const user = useSelector((state) => state.user);
@@ -34,6 +35,17 @@ export default function App() {
     {
       path: "/",
       element: user ? <Home /> : <Navigate to="/auth" />,
+      children: [
+        {
+          index: true,
+          element: <Index />,
+        },
+        {
+          path: "/contacts/:contactId",
+          element: user ? <SingleChatPage /> : <Navigate to="/auth" />,
+          loader: singleChatPageLoader,
+        },
+      ],
     },
     {
       path: "/auth",
