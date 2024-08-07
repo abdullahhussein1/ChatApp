@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { signedIn, signedOut } from "./features/user/userSlice.js";
 import { onAuthStateChanged } from "firebase/auth";
 import Index from "./routes/index.jsx";
+import SplashScreen from "./components/SplashScreen.jsx";
 
 export default function App() {
   const user = useSelector((state) => state.user);
@@ -57,6 +58,8 @@ export default function App() {
       loader: singleChatPageLoader,
     },
   ]);
+
+  if (!user) return <SplashScreen />;
 
   return <RouterProvider router={router} />;
 }

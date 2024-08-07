@@ -30,7 +30,7 @@ export default function ChatsList() {
       return (
         <div
           key={contact.id}
-          className="flex animate-in slide-in-from-left-full duration-300 justify-between hover:bg-gray-50/60 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-4 px-3 py-2 transition-colors w-full"
+          className="flex animate-in fade-in-0 duration-300 justify-between hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-4 px-3 py-2 transition-colors w-full"
           onClick={() => handleChatClick(contactId)}
         >
           <div

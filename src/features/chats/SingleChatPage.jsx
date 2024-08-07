@@ -50,14 +50,14 @@ export default function SingleChatPage() {
   }, [messages]);
 
   return (
-    <div className="relative rounded-r-3xl overflow-hidden  duration-300 flex max-w-full flex-col w-full h-[95dvh] bg-gray-100">
+    <div className="relative rounded-r-3xl overflow-clip   flex max-w-full flex-col w-full h-[95dvh] bg-gray-100">
       <img
         src={bgImage}
         alt="chat background image"
         className="absolute select-none w-auto h-full -hue-rotate-15"
         draggable="false"
       />
-      <header className="absolute z-50 w-full flex bg-white/90 backdrop-blur-xl justify-between items-center gap-2 p-6 pt-10">
+      <header className="absolute animate-in slide-in-from-top-full  duration-300 z-50 w-full flex bg-white/90 backdrop-blur-xl justify-between items-center gap-2 p-6 pt-10">
         <div className="pr-2 cursor-pointer" onClick={() => navigate("/")}>
           <ChevronLeft />
         </div>
@@ -81,10 +81,10 @@ export default function SingleChatPage() {
       </header>
       <main className="flex-1 flex items-center h-dvh flex-col overflow-y-scroll pt-32 pb-8">
         {messages.length === 0 && (
-          <div className="flex font-medium h-dvh  flex-1 z-20 justify-center items-center">
-            <p className="px-3 py-2 bg-white rounded-2xl shadow-2xl shadow-gray-500">
-              Start chat with {contact.username.split(" ")[0]}
-            </p>
+          <div className="flex font-medium h-dvh flex-1 z-20 justify-center items-center">
+            <div className="px-3 py-2 bg-white rounded-2xl shadow-2xl shadow-gray-500 animate-in zoom-in-90">
+              <p>Start chat with {contact.username.split(" ")[0]}</p>
+            </div>
           </div>
         )}
         <div className="mt-auto"></div>
@@ -173,7 +173,7 @@ export default function SingleChatPage() {
         })}
         <div ref={messagesEndRef} />
       </main>
-      <footer className="px-6 pb-6 -mt-8 z-50 relative justify-center flex items-center">
+      <footer className="px-6 pb-6 animate-in slide-in-from-bottom-full duration-300 -mt-8 z-50 relative justify-center flex items-center">
         <input
           type="text"
           value={messageInput}
