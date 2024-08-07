@@ -57,7 +57,7 @@ export default function SingleChatPage() {
         className="absolute select-none w-auto h-full -hue-rotate-15"
         draggable="false"
       />
-      <header className="absolute z-50 w-full flex bg-white/90 backdrop-blur-2xl justify-between items-center gap-2 p-6 pt-10">
+      <header className="absolute z-50 w-full flex bg-white/90 backdrop-blur-xl justify-between items-center gap-2 p-6 pt-10">
         <div className="pr-2 cursor-pointer" onClick={() => navigate(-1)}>
           <ChevronLeft />
         </div>
@@ -79,7 +79,7 @@ export default function SingleChatPage() {
         <VideoIcon className="mr-3" />
         <PhoneIcon />
       </header>
-      <main className="flex-1 flex items-center flex-col overflow-y-scroll pt-32 pb-6 px-6">
+      <main className="flex-1 flex items-center flex-col overflow-y-scroll pt-32 pb-6">
         {messages.length === 0 && (
           <div className="flex font-medium  flex-1 z-20 justify-center items-center">
             <p className="px-3 py-2 bg-white rounded-2xl shadow-2xl shadow-gray-500">
@@ -93,11 +93,11 @@ export default function SingleChatPage() {
             return (
               <div
                 key={message.id}
-                className={`flex justify-end items-end w-full z-20 gap-1 ${
+                className={`flex justify-end items-end w-full z-20 px-6 gap-1 ${
                   // FIXME: creats chat scroll issues, change it to padding in a seperate div
                   messages[i + 1]?.senderId === message?.senderId
-                    ? "mb-[2px]"
-                    : "mb-3"
+                    ? "pb-[2px]"
+                    : "pb-3"
                 }`}
               >
                 <div
@@ -132,10 +132,10 @@ export default function SingleChatPage() {
             return (
               <div
                 key={message.id}
-                className={`flex justify-start items-end w-full z-20 gap-1 ${
+                className={`flex justify-start items-end w-full px-6 z-20 gap-1 ${
                   messages[i + 1]?.senderId === message?.senderId
-                    ? "mb-[2px]"
-                    : "mb-3"
+                    ? "pb-[2px]"
+                    : "pb-3"
                 }`}
               >
                 {messages[i + 1]?.senderId !== message?.senderId && (
@@ -173,7 +173,7 @@ export default function SingleChatPage() {
         })}
         <div ref={messagesEndRef} />
       </main>
-      <footer className="px-6 pb-6 -mt-4 z-50 relative justify-center flex items-center">
+      <footer className="px-6 pb-6 -mt-8 z-50 relative justify-center flex items-center">
         <input
           type="text"
           value={messageInput}
@@ -183,7 +183,7 @@ export default function SingleChatPage() {
               handleSendMessage();
             }
           }}
-          className="h-fit p-3 pr-11 shadow-2xl shadow-black outline-none rounded-full w-full"
+          className="h-fit p-3 pr-11 shadow-2xl shadow-black bg-white/90 backdrop-blur-lg outline-none rounded-full w-full"
           placeholder="Type message..."
         />
         <button
