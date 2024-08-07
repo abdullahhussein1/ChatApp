@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="flex flex-col animate-in slide-in-from-left duration-300 overflow-hidden pt-10 gap-y-5 h-[100dvh]">
       <header className="flex justify-between items-center px-6">
-        <button className="flex gap-2 items-center hover:bg-gray-50/60 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl">
+        <button className="flex gap-2 items-center hover:bg-gray-50/80 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl">
           <img
             src={userr.photoUrl}
             alt="User Profile"
@@ -28,7 +28,7 @@ export default function Home() {
           <p className="font-bold">{userr.username}</p>
         </button>
 
-        <button className="hover:bg-gray-50/60 border transition-colors duration-300 rounded-full p-2 border-white hover:border-gray-100">
+        <button className="hover:bg-gray-50/80 border transition-colors duration-300 rounded-full p-2 border-white hover:border-gray-100">
           <Edit />
         </button>
       </header>
