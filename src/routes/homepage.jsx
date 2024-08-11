@@ -1,4 +1,4 @@
-import { Edit, Search } from "lucide-react";
+import { Edit, Search, UserPlusIcon } from "lucide-react";
 import { getColorById } from "../data/colors";
 import { user as UserData } from "../data/user";
 import { getContactById } from "../data/contacts";
@@ -87,7 +87,7 @@ export default function Home() {
               <p className="font-bold">{userr.username}</p>
             </button>
             <button className="hover:bg-gray-50/80 border transition-colors duration-300 rounded-full p-2 border-white hover:border-gray-100">
-              <Edit />
+              <UserPlusIcon />
             </button>
           </header>
           <nav className="pl-8 flex gap-5 w-full overflow-x-auto">
