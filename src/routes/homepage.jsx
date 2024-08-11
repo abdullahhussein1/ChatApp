@@ -1,4 +1,4 @@
-import { Edit, Search, UserPlusIcon } from "lucide-react";
+import { Search, UserPlusIcon } from "lucide-react";
 import { getColorById } from "../data/colors";
 import { user as UserData } from "../data/user";
 import { getContactById } from "../data/contacts";
@@ -7,7 +7,6 @@ import ChatsList from "../features/chats/ChatsList";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { signedOut } from "../features/user/userSlice";
-import { signOut } from "firebase/auth";
 import { useMediaQuery } from "react-responsive";
 import { auth } from "../firebase/firebase";
 
