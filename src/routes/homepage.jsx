@@ -9,6 +9,7 @@ import { useState } from "react";
 import { signedOut } from "../features/user/userSlice";
 import { signOut } from "firebase/auth";
 import { useMediaQuery } from "react-responsive";
+import { auth } from "../firebase/firebase";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -25,8 +26,9 @@ export default function Home() {
   }
 
   const handleSignOutClicked = () => {
-    signOut();
+    auth.signOut();
     dispatch(signedOut());
+    navigate("/auth");
   };
 
   return (

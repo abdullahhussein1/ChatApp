@@ -10,7 +10,7 @@ import SingleChatPage, {
 import Auth from "./routes/authpage.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./firebase/firebase.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { signedIn, signedOut } from "./features/user/userSlice.js";
 import { onAuthStateChanged } from "firebase/auth";
 import Index from "./routes/index.jsx";
@@ -19,6 +19,7 @@ import SplashScreen from "./components/SplashScreen.jsx";
 export default function App() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -28,6 +29,7 @@ export default function App() {
         dispatch(signedOut());
       }
     });
+    setLoading(false);
 
     return () => unsubscribe();
   }, [dispatch]);
@@ -54,7 +56,7 @@ export default function App() {
     },
   ]);
 
-  if (!user) return <SplashScreen />;
+  if (loading) return <SplashScreen />;
 
   return <RouterProvider router={router} />;
 }
