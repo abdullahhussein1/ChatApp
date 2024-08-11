@@ -30,7 +30,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative bg-gray-50 px-5 h-dvh flex items-center justify-center">
+    <div className="relative bg-gray-50 px-3 md:px-5 h-dvh flex items-center justify-center">
       {isUserInfoModalShown && (
         <div
           onClick={() => setIsUserInfoModalShown(false)}
