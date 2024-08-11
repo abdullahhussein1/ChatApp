@@ -2,18 +2,21 @@ import { Edit, Search } from "lucide-react";
 import { getColorById } from "../data/colors";
 import { user as UserData } from "../data/user";
 import { getContactById } from "../data/contacts";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import ChatsList from "../features/chats/ChatsList";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { signedOut } from "../features/user/userSlice";
 import { signOut } from "firebase/auth";
+import { useMediaQuery } from "react-responsive";
 
 export default function Home() {
   const navigate = useNavigate();
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isUserInfoModalShown, setIsUserInfoModalShown] = useState(false);
+  const location = useLocation();
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
 
   const user = UserData;
 
@@ -60,8 +63,14 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-2 shadow-2xl shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
-        <div className="flex flex-col z-40 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5">
+      <div className="flex md:grid w-full shadow-2xl shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
+        <div
+          className={`flex flex-col col-span-full md:col-span-1 z-40 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5 ${
+            isSmallScreen &&
+            location.pathname.includes("/contacts/") &&
+            "hidden"
+          }`}
+        >
           <header className="flex justify-between items-center px-6">
             <button
               onClick={() => setIsUserInfoModalShown(true)}
@@ -116,7 +125,13 @@ export default function Home() {
           <div className="bg-gray-200 h-[1px]"></div>
           <ChatsList />
         </div>
-        <div className="md:col-span-2 rounded-r-3xl">
+        <div
+          className={`flex w-full md:col-span-2 rounded-r-3xl ${
+            isSmallScreen &&
+            !location.pathname.includes("/contacts/") &&
+            "hidden"
+          }`}
+        >
           <Outlet />
         </div>
       </div>
