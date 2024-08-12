@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowUp, ChevronLeft } from "lucide-react";
+import { ArrowUp, ChevronDown } from "lucide-react";
 import { chatStarted } from "./chatsSlice";
 import { messageSended } from "../messages/messagesSlice";
 import { user as userDate } from "../../data/user";
@@ -52,9 +52,9 @@ export default function ChatFooter({
       {
         <button
           onClick={scrollToBottom}
-          className="absolute -top-12 -rotate-90 bg-gradient-to-b bg-white/70 shadow-lg backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
+          className="absolute -top-12 bg-gradient-to-b bg-white/70 shadow-sm backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
         >
-          <ChevronLeft />
+          <ChevronDown />
         </button>
       }
     </footer>
