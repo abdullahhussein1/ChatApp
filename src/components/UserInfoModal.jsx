@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function UserInfoModal({ isOpen, setIsOpen }) {
+export default function UserInfoModal({ isOpen, onBackgroundClick }) {
   const user = useSelector((state) => state.user);
 
   const handleSignOutClicked = () => {
@@ -12,7 +12,7 @@ export default function UserInfoModal({ isOpen, setIsOpen }) {
 
   return (
     <div
-      onClick={() => setIsOpen(false)}
+      onClick={onBackgroundClick}
       className={`flex items-center justify-center w-full h-full bg-white/25  z-50 absolute ${
         !isOpen && "hidden"
       }`}

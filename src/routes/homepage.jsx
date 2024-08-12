@@ -17,7 +17,7 @@ export default function Home() {
     <div className="relative bg-gray-50 px-3 md:px-5 h-dvh flex items-center justify-center">
       <UserInfoModal
         isOpen={isUserInfoModalOpen}
-        setIsOpen={setIsUserInfoModalOpen}
+        onBackgroundClick={() => setIsUserInfoModalOpen(false)}
       />
       <div className="flex md:grid w-full shadow-2xl max-w-6xl max-h-[900px] shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
         <div
@@ -27,7 +27,9 @@ export default function Home() {
             "hidden"
           }`}
         >
-          <HomePageHeader onUserProfileClick={setIsUserInfoModalOpen} />
+          <HomePageHeader
+            onUserProfileClick={() => setIsUserInfoModalOpen(true)}
+          />
           <ContactsList />
           <Divider />
           <ChatsList />

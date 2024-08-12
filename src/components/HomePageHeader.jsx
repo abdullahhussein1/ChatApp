@@ -8,7 +8,7 @@ export default function HomePageHeader({ onUserProfileClick }) {
   return (
     <header className="flex justify-between items-center px-6">
       <button
-        onClick={() => onUserProfileClick(true)}
+        onClick={onUserProfileClick}
         className="flex gap-2 items-center hover:bg-gray-50/80 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl"
       >
         <img
