@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowUp, ChevronDown } from "lucide-react";
 import { chatStarted } from "./chatsSlice";
@@ -11,6 +11,7 @@ export default function ChatFooter({
   messagesEndRef = { messagesEndRef },
 }) {
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const [messageInput, setMessageInput] = useState("");
 
   const user = userDate;
@@ -20,6 +21,7 @@ export default function ChatFooter({
 
   const handleSendMessage = () => {
     if (!messageInput) return;
+    inputRef.current.focus();
     dispatch(chatStarted(user.id, contact.id));
     dispatch(messageSended(chat.id, user.id, messageInput));
     setMessageInput("");
@@ -32,6 +34,7 @@ export default function ChatFooter({
   return (
     <footer className="px-3 pb-3 animate-in slide-in-from-bottom-full duration-300 -mt-8 z-50 relative justify-center flex items-center">
       <input
+        ref={inputRef}
         type="text"
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
