@@ -30,7 +30,7 @@ export default function ChatFooter({
   };
 
   return (
-    <footer className="px-6 pb-6 animate-in slide-in-from-bottom-full duration-300 -mt-8 z-50 relative justify-center flex items-center">
+    <footer className="px-3 pb-3 animate-in slide-in-from-bottom-full duration-300 -mt-8 z-50 relative justify-center flex items-center">
       <input
         type="text"
         value={messageInput}
@@ -40,12 +40,12 @@ export default function ChatFooter({
             handleSendMessage();
           }
         }}
-        className="h-fit p-3 pr-11 shadow-2xl shadow-black bg-white/90 backdrop-blur-lg outline-none rounded-full w-full"
+        className="h-fit p-3 pr-11 shadow-2xl shadow-black bg-white/80 backdrop-blur-md outline-none rounded-full w-full"
         placeholder="Type message..."
       />
       <button
         onClick={handleSendMessage}
-        className="absolute right-8 bg-gradient-to-b from-indigo-400 to-violet-500 p-1 rounded-full text-white"
+        className="absolute right-5 bg-gradient-to-b from-indigo-400 to-blue-500 p-1 rounded-full text-white"
       >
         <ArrowUp />
       </button>

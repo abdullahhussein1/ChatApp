@@ -1,27 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { getColorById } from "../../data/colors";
 
-export default function ChatBubble({
-  message,
-  messages,
-  i,
-  chatBubbleType,
-  contact,
-}) {
-  const user = useSelector((state) => state.user);
-
-  const color = getColorById(contact.id);
-
+export default function ChatBubble({ message, messages, i, chatBubbleType }) {
   if (chatBubbleType == "sended") {
     return (
       <div
-        className={`flex justify-end items-end w-full z-20 px-6 gap-1 ${
+        className={`flex justify-end items-end w-full z-20 px-3 gap-1 ${
           messages[i + 1]?.senderId === message?.senderId ? "pb-[2px]" : "pb-3"
         }`}
       >
         <div
-          className={`bg-gradient-to-r from-indigo-400 to-violet-500 w-fit flex flex-col shadow-2xl shadow-gray-400/70 max-w-96 text-white px-3 py-[6px] ${
+          className={`bg-gradient-to-r from-indigo-600/75 backdrop-blur-sm to-blue-700/75 w-fit flex flex-col shadow-2xl shadow-gray-400/70 ms-14 text-white px-3 py-[6px] ${
             messages[i + 1]?.senderId === message?.senderId &&
             messages[i - 1]?.senderId === message?.senderId
               ? "rounded-l-2xl rounded-r-none"
@@ -37,36 +25,18 @@ export default function ChatBubble({
             {message.timestamp.slice(0, 5)}
           </p>
         </div>
-        {messages[i + 1]?.senderId !== message?.senderId && (
-          <img
-            draggable="false"
-            src={user.photoUrl}
-            alt="User Profile"
-            className="size-8 rounded-full  select-none border"
-          />
-        )}
       </div>
     );
   }
 
   return (
     <div
-      className={`flex justify-start items-end w-full px-6 z-20 gap-1 ${
+      className={`flex justify-start items-end w-full px-3 z-20 gap-1 ${
         messages[i + 1]?.senderId === message?.senderId ? "pb-[2px]" : "pb-3"
       }`}
     >
-      {messages[i + 1]?.senderId !== message?.senderId && (
-        <div
-          className={`relative flex items-center justify-center size-8 ${color[0]} rounded-full`}
-        >
-          <p className={`${color[1]} text-sm font-medium`}>
-            {contact.username.split(" ")[0][0]}
-            {contact.username.split(" ")[1][0]}
-          </p>
-        </div>
-      )}
       <div
-        className={`bg-white w-fit shadow-2xl shadow-gray-400/70 flex flex-col max-w-96 px-3 py-2 ${
+        className={`bg-white/75 backdrop-blur-sm w-fit shadow-2xl shadow-gray-400/70 flex flex-col me-14 px-3 py-2 ${
           messages[i + 1]?.senderId === message?.senderId &&
           messages[i - 1]?.senderId === message?.senderId
             ? "rounded-r-2xl rounded-l-none"

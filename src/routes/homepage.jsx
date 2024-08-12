@@ -21,7 +21,7 @@ export default function Home() {
       />
       <div className="flex md:grid w-full shadow-2xl max-w-6xl max-h-[900px] shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
         <div
-          className={`flex flex-col col-span-full md:col-span-1 z-40 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5 ${
+          className={`flex flex-col col-span-full md:col-span-1 z-40 w-full h-[98dvh] md:h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5 ${
             isSmallScreen &&
             location.pathname.includes("/contacts/") &&
             "hidden"

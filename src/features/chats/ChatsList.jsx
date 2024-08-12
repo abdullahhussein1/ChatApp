@@ -30,13 +30,13 @@ export default function ChatsList() {
       return (
         <div
           key={contact.id}
-          className="flex animate-in fade-in-0 duration-300 justify-between hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-4 px-3 py-2 transition-colors w-full"
+          className="flex animate-in active:scale-95 transition-all fade-in-0  justify-between hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-4 px-3 py-2 w-full"
           onClick={() => handleChatClick(contactId)}
         >
           <div
             className={`relative flex flex-none items-center justify-center size-14 ${color[0]} rounded-full`}
           >
-            <p className={`${color[1]} font-medium`}>
+            <p className={`${color[1]} font-bold tracking-wider`}>
               {contact.username.split(" ")[0][0]}
               {contact.username.split(" ")[1][0]}
             </p>

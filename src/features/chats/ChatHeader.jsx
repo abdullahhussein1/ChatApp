@@ -15,7 +15,7 @@ export default function ChatHeader({ contact }) {
       <div
         className={`relative flex flex-none items-center justify-center size-10 ${color[0]} rounded-full`}
       >
-        <p className={`${color[1]} text-sm font-medium`}>
+        <p className={`${color[1]} text-sm font-bold tracking-wider`}>
           {contact.username.split(" ")[0][0]}
           {contact.username.split(" ")[1][0]}
         </p>

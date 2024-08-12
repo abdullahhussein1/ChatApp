@@ -6,20 +6,20 @@ export default function HomePageHeader({ onUserProfileClick }) {
   const user = useSelector((state) => state.user);
 
   return (
-    <header className="flex justify-between items-center px-6">
+    <header className="flex justify-between  items-center px-6">
       <button
         onClick={onUserProfileClick}
-        className="flex gap-2 items-center hover:bg-gray-50/80 border duration-300 border-white hover:border-gray-100 transition-colors p-2 rounded-2xl"
+        className="flex gap-2 items-center active:scale-95 hover:bg-gray-50/80 border  border-white hover:border-gray-100 transition-all p-2 rounded-2xl"
       >
         <img
           draggable="false"
           src={user.photoUrl}
           alt="User Profile"
-          className="size-10 rounded-full  select-none border"
+          className="size-10 rounded-full flex-none select-none border"
         />
         <p className="font-bold">{user.username}</p>
       </button>
-      <button className="hover:bg-gray-50/80 border transition-colors duration-300 rounded-full p-2 border-white hover:border-gray-100">
+      <button className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100">
         <UserPlusIcon />
       </button>
     </header>

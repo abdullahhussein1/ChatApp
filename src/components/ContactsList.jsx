@@ -14,7 +14,7 @@ export default function ContactsList() {
 
   return (
     <nav className="pl-8 flex gap-5 w-full flex-none overflow-x-auto">
-      <div className="flex flex-col cursor-pointer gap-2 items-center">
+      <div className="flex flex-col cursor-pointer active:scale-95 transition-all gap-2 items-center">
         <div className="flex items-center justify-center size-14 bg-gray-100/60  rounded-full">
           <Search />
         </div>
@@ -28,13 +28,13 @@ export default function ContactsList() {
           return (
             <div
               key={contact.id}
-              className="flex flex-col gap-2 items-center cursor-pointer"
+              className="flex flex-col gap-2 active:scale-95 transition-all items-center cursor-pointer"
               onClick={() => handleContactClick(contactId)}
             >
               <div
                 className={`relative flex flex-none items-center justify-center size-14 ${color[0]} rounded-full`}
               >
-                <p className={`${color[1]} font-medium`}>
+                <p className={`${color[1]} font-bold tracking-wider`}>
                   {contact?.username.split(" ")[0][0]}
                   {contact?.username.split(" ")[1][0]}
                 </p>

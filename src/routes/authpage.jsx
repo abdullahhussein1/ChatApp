@@ -28,7 +28,7 @@ export default function Auth() {
         </div>
         <button
           onClick={handleSignIn}
-          className="flex gap-2 items-center hover:tracking-tight justify-center transition-all border border-gray-200/80 rounded-2xl w-11/12 font-bold px-3 py-2 hover:bg-gray-50"
+          className="flex gap-2 items-center hover:tracking-tight active:scale-95 justify-center transition-all border border-gray-200/80 rounded-2xl w-11/12 font-bold px-3 py-2 hover:bg-gray-50"
         >
           <img
             draggable="false"

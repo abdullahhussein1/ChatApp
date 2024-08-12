@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signedOut } from "../features/user/userSlice";
 
 export default function UserInfoModal({ isOpen, onBackgroundClick }) {
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSignOutClicked = () => {
-    auth.signOut();
     dispatch(signedOut());
     navigate("/auth");
   };
@@ -37,7 +39,7 @@ export default function UserInfoModal({ isOpen, onBackgroundClick }) {
         </div>
         <button
           onClick={handleSignOutClicked}
-          className="w-full col-span-full font-medium bg-gray-400/10 border border-gray-200 hover:bg-gray-400/15 hover:tracking-tight transition-all rounded-2xl p-2"
+          className="w-full col-span-full font-medium active:scale-95 bg-gray-400/10 border border-gray-200 hover:bg-gray-400/15 hover:tracking-tight transition-all rounded-2xl p-2"
         >
           Sign Out
         </button>

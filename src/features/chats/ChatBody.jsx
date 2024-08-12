@@ -40,7 +40,6 @@ export default function ChatBody({ contact, messagesEndRef }) {
             message={message}
             messages={messages}
             index={i}
-            contact={contact}
             chatBubbleType="sended"
           />
         ) : (
@@ -49,7 +48,6 @@ export default function ChatBody({ contact, messagesEndRef }) {
             message={message}
             messages={messages}
             index={i}
-            contact={contact}
             chatBubbleType="recived"
           />
         )
