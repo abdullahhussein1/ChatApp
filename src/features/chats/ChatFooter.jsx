@@ -52,7 +52,7 @@ export default function ChatFooter({
       {
         <button
           onClick={scrollToBottom}
-          className="absolute -top-12 -rotate-90 bg-gradient-to-b bg-white/90 backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
+          className="absolute -top-12 -rotate-90 bg-gradient-to-b bg-white/70 shadow-lg backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
         >
           <ChevronLeft />
         </button>
