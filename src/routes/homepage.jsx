@@ -64,7 +64,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="flex md:grid w-full shadow-2xl shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
+      <div className="flex md:grid w-full shadow-2xl max-w-6xl max-h-[900px] shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
         <div
           className={`flex flex-col col-span-full md:col-span-1 z-40 w-full h-[95dvh] bg-white duration-300 overflow-hidden pt-10 gap-y-5 ${
             isSmallScreen &&
@@ -89,7 +89,7 @@ export default function Home() {
               <UserPlusIcon />
             </button>
           </header>
-          <nav className="pl-8 flex gap-5 w-full overflow-x-auto">
+          <nav className="pl-8 flex gap-5 w-full flex-none overflow-x-auto">
             <div className="flex flex-col cursor-pointer gap-2 items-center">
               <div className="flex items-center justify-center size-14 bg-gray-100/60  rounded-full">
                 <Search />
