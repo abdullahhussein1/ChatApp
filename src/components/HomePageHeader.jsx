@@ -2,11 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { UserPlusIcon } from "lucide-react";
 
-export default function HomePageHeader({ onUserProfileClick }) {
+export default function HomePageHeader({
+  onUserProfileClick,
+  onAddContactClick,
+}) {
   const user = useSelector((state) => state.user);
 
   return (
-    <header className="flex justify-between  items-center px-6">
+    <header className="flex justify-between items-center px-6">
       <button
         onClick={onUserProfileClick}
         className="flex gap-2 items-center active:scale-95 hover:bg-gray-50/80 border  border-white hover:border-gray-100 transition-all p-2 rounded-2xl"
@@ -19,7 +22,10 @@ export default function HomePageHeader({ onUserProfileClick }) {
         />
         <p className="font-bold">{user.username}</p>
       </button>
-      <button className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100">
+      <button
+        onClick={onAddContactClick}
+        className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100"
+      >
         <UserPlusIcon />
       </button>
     </header>

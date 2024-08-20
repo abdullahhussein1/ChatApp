@@ -3,6 +3,7 @@ import ChatsList from "../features/chats/ChatsList";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import UserInfoModal from "../components/UserInfoModal";
+import AddContactModal from "../components/AddContactModal";
 import HomePageHeader from "../components/HomePageHeader";
 import Divider from "../components/Divider";
 import ContactsList from "../components/ContactsList";
@@ -10,6 +11,7 @@ import ContactsList from "../components/ContactsList";
 export default function Home() {
   const location = useLocation();
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -18,6 +20,10 @@ export default function Home() {
       <UserInfoModal
         isOpen={isUserInfoModalOpen}
         onBackgroundClick={() => setIsUserInfoModalOpen(false)}
+      />
+      <AddContactModal
+        isOpen={isAddContactModalOpen}
+        onBackgroundClick={() => setIsAddContactModalOpen(false)}
       />
       <div className="flex md:grid w-full shadow-2xl max-w-6xl max-h-[900px] shadow-gray-300 md:grid-cols-3 rounded-3xl overflow-clip">
         <div
@@ -29,6 +35,7 @@ export default function Home() {
         >
           <HomePageHeader
             onUserProfileClick={() => setIsUserInfoModalOpen(true)}
+            onAddContactClick={() => setIsAddContactModalOpen(true)}
           />
           <ContactsList />
           <Divider />
