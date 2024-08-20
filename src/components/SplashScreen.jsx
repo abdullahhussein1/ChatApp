@@ -9,7 +9,7 @@ export default function SplashScreen() {
           draggable="false"
           src={logo}
           alt="app icon"
-          className="size-14 select-none md:size-20"
+          className="size-14 flex-none select-none md:size-20"
         />
         <p className="text-md md:text-2xl">Chat App</p>
       </div>

@@ -12,7 +12,7 @@ export default function Index() {
       <img
         src={bgImage}
         alt="chat background image"
-        className="absolute select-none w-full h-full -hue-rotate-15"
+        className="absolute select-none flex-none w-full h-full -hue-rotate-15"
         draggable="false"
       />
     </div>

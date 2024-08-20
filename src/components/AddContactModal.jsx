@@ -40,7 +40,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
             draggable="false"
             src={user.photoUrl}
             alt="User Profile"
-            className="size-10 select-none rounded-full border shadow-2xl"
+            className="size-10 flex-none select-none rounded-full border shadow-2xl"
           />
         </div>
         <div className="flex flex-col flex-1 gap-1 md:items-start">

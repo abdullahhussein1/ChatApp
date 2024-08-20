@@ -22,7 +22,7 @@ export default function SingleChatPage() {
         draggable="false"
         src={bgImage}
         alt="chat background image"
-        className="absolute select-none w-auto h-full -hue-rotate-15"
+        className="absolute select-none flex-none w-auto h-full -hue-rotate-15"
       />
       <ChatHeader contact={contact} />
       <ChatBody contact={contact} messagesEndRef={messagesEndRef} />

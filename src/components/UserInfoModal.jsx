@@ -33,7 +33,7 @@ export default function UserInfoModal({ isOpen, onBackgroundClick }) {
             draggable="false"
             src={user.photoUrl}
             alt="User Profile"
-            className="size-20 select-none rounded-full border shadow-2xl"
+            className="size-20 select-none flex-none rounded-full border shadow-2xl"
           />
         </div>
         <div className="flex flex-col gap-1 items-center md:items-start">

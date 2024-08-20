@@ -23,7 +23,7 @@ export default function Auth() {
             draggable="false"
             src={logo}
             alt="app icon"
-            className="size-5  select-none"
+            className="size-5  flex-none select-none"
           />
           <p>Chat App</p>
         </div>
@@ -44,7 +44,7 @@ export default function Auth() {
                 draggable="false"
                 src={google}
                 alt="google icon"
-                className="size-5  select-none"
+                className="size-5 flex-none select-none"
               />
               <p>Sign in with Google</p>
             </>
