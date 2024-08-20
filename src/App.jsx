@@ -15,6 +15,7 @@ import { signedIn, signedOut } from "./features/user/userSlice.js";
 import { onAuthStateChanged } from "firebase/auth";
 import Index from "./routes/index.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
+import { useSignInMutation } from "./features/api/apiSlice.js";
 
 export default function App() {
   const user = useSelector((state) => state.user);
