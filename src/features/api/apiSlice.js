@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { signInWithPopup } from "firebase/auth";
+import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "../../firebase/firebase";
 import {
   collection,
@@ -24,6 +24,7 @@ const convertTimestamps = (data) => {
 
 const apiSlice = createApi({
   baseQuery: () => {},
+  tagTypes: ["chat", "auth"],
   endpoints: (builder) => ({
     signIn: builder.mutation({
       async queryFn() {
@@ -45,6 +46,18 @@ const apiSlice = createApi({
           return { error: error.message };
         }
       },
+      invalidatesTags: ["auth"],
+    }),
+    signOut: builder.mutation({
+      async queryFn() {
+        try {
+          await signOut(auth);
+          return { data: "User signed out" };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+      invalidatesTags: ["auth"],
     }),
     getUsers: builder.query({
       async queryFn() {
@@ -63,6 +76,30 @@ const apiSlice = createApi({
           return { error: error.message };
         }
       },
+    }),
+    getCurrentUser: builder.query({
+      async queryFn() {
+        try {
+          return await new Promise((resolve) => {
+            onAuthStateChanged(auth, (user) => {
+              if (user) {
+                const usr = {
+                  id: user.uid,
+                  username: user.displayName,
+                  email: user.email,
+                  photoUrl: user.photoURL,
+                };
+                resolve({ data: usr });
+              } else {
+                resolve({ data: null });
+              }
+            });
+          });
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+      providesTags: ["auth"],
     }),
     getUserById: builder.query({
       async queryFn(userId) {
@@ -174,11 +211,13 @@ const apiSlice = createApi({
 
 export const {
   useGetUsersQuery,
+  useGetCurrentUserQuery,
   useGetUserByIdQuery,
   useGetChatsQuery,
   useGetMessagesByChatIdQuery,
   useGetContactsByUserIdQuery,
   useSignInMutation,
+  useSignOutMutation,
   useAddContactMutation,
   useSendMessageMutation,
   useCreateChatMutation,

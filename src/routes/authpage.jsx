@@ -1,18 +1,13 @@
 import logo from "../assets/chat.png";
 import google from "../assets/google.png";
-import { useDispatch } from "react-redux";
-import { signedIn } from "../features/user/userSlice";
 import { useSignInMutation } from "../features/api/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
 
 export default function Auth() {
-  const dispatch = useDispatch();
   const [signIn, { isLoading }] = useSignInMutation();
 
   const handleSignIn = async () => {
-    const user = await signIn().unwrap();
-
-    dispatch(signedIn(user));
+    await signIn().unwrap();
   };
 
   return (

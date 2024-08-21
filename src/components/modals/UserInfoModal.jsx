@@ -1,18 +1,22 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signedOut } from "../../features/user/userSlice";
-import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
+import {
+  useGetCurrentUserQuery,
+  useSignOutMutation,
+} from "../../features/api/apiSlice";
 
 export default function UserInfoModal({ isOpen, onBackgroundClick }) {
-  const user = useSelector((state) => state.user);
+  const { data: user } = useGetCurrentUserQuery();
+  const [signOut] = useSignOutMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSignOutClicked = async () => {
-    await signOut(auth);
-    dispatch(signedOut());
-    navigate("/auth");
+    try {
+      await signOut(auth);
+      navigate("/auth");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (

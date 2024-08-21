@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   Navigate,
+  redirect,
   RouterProvider,
 } from "react-router-dom";
 import Home from "./routes/homepage.jsx";
@@ -8,36 +9,17 @@ import SingleChatPage, {
   loader as singleChatPageLoader,
 } from "./features/chats/SingleChatPage.jsx";
 import Auth from "./routes/authpage.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { auth } from "./firebase/firebase.js";
-import { useEffect, useState } from "react";
-import { signedIn, signedOut } from "./features/user/userSlice.js";
-import { onAuthStateChanged } from "firebase/auth";
 import Index from "./routes/index.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
+import { useGetCurrentUserQuery } from "./features/api/apiSlice.js";
 
 export default function App() {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        dispatch(signedIn(currentUser));
-      } else {
-        dispatch(signedOut());
-      }
-    });
-    setLoading(false);
-
-    return () => unsubscribe();
-  }, [dispatch]);
+  const { data: user, isLoading } = useGetCurrentUserQuery();
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: user ? <Home /> : <Navigate to="/auth" />,
+      element: user ? <Home /> : <Navigate to="/auth" replace />,
       children: [
         {
           index: true,
@@ -45,18 +27,18 @@ export default function App() {
         },
         {
           path: "/contacts/:contactId",
-          element: user ? <SingleChatPage /> : <Navigate to="/auth" />,
+          element: user ? <SingleChatPage /> : <Navigate to="/auth" replace />,
           loader: singleChatPageLoader,
         },
       ],
     },
     {
       path: "/auth",
-      element: !user ? <Auth /> : <Navigate to="/" />,
+      element: !user ? <Auth /> : <Navigate to="/" replace />,
     },
   ]);
 
-  if (loading) return <SplashScreen />;
+  if (isLoading) return <SplashScreen />;
 
   return <RouterProvider router={router} />;
 }

@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
 import {
   useAddContactMutation,
   useGetContactsByUserIdQuery,
+  useGetCurrentUserQuery,
   useGetUsersQuery,
 } from "../../features/api/apiSlice";
 import Divider from "../Divider";
@@ -9,17 +9,14 @@ import { PlusIcon } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 
 export default function AddContactModal({ isOpen, onBackgroundClick }) {
-  const user = useSelector((state) => state.user);
+  const { data: user } = useGetCurrentUserQuery();
   const { data: users = [] } = useGetUsersQuery();
   const { data: contacts = [] } = useGetContactsByUserIdQuery(user.id);
   const [addContact, { isLoading }] = useAddContactMutation();
 
-  console.log(contacts);
-
   const handleAddContactClick = async (contact) => {
     try {
-      const response = await addContact({ userId: user.id, contact });
-      console.log(response);
+      await addContact({ userId: user.id, contact });
     } catch (error) {
       console.error(error.messaeg);
     }

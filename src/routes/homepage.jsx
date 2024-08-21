@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import ChatsList from "../features/chats/ChatsList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import UserInfoModal from "../components/modals/UserInfoModal";
 import AddContactModal from "../components/modals/AddContactModal";

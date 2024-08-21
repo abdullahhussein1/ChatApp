@@ -1,12 +1,12 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { UserPlusIcon } from "lucide-react";
+import { useGetCurrentUserQuery } from "../features/api/apiSlice";
 
 export default function HomePageHeader({
   onUserProfileClick,
   onAddContactClick,
 }) {
-  const user = useSelector((state) => state.user);
+  const { data: user } = useGetCurrentUserQuery();
 
   return (
     <header className="flex justify-between items-center px-6">
