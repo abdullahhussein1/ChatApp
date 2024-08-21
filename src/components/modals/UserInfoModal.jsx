@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signedOut } from "../features/user/userSlice";
+import { signedOut } from "../../features/user/userSlice";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth } from "../../firebase/firebase";
 
 export default function UserInfoModal({ isOpen, onBackgroundClick }) {
   const user = useSelector((state) => state.user);
@@ -26,7 +26,7 @@ export default function UserInfoModal({ isOpen, onBackgroundClick }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute grid grid-cols-1 md:grid-cols-2 gap-5 max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-2/3 z-50"
+        className="absolute grid grid-cols-1 md:grid-cols-2 gap-5 max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-3/4 z-50"
       >
         <div className="flex items-center justify-center">
           <img

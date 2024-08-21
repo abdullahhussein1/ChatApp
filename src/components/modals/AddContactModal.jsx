@@ -3,8 +3,8 @@ import {
   useAddContactMutation,
   useGetContactsByUserIdQuery,
   useGetUsersQuery,
-} from "../features/api/apiSlice";
-import Divider from "./Divider";
+} from "../../features/api/apiSlice";
+import Divider from "../Divider";
 import { PlusIcon } from "lucide-react";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -78,7 +78,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute flex gap-2 flex-col max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-2/3 z-50"
+        className="absolute flex gap-2 flex-col max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-3/4 z-50"
       >
         <p className="pb-3 text-xl font-semibold">Users List</p>
         {renderedUsers}
