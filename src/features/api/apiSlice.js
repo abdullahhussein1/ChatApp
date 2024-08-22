@@ -118,20 +118,32 @@ const apiSlice = createApi({
         }
       },
     }),
-    // Fetch all chats
-    getChatsByUserId: builder.query({
-      async queryFn(userId) {
+    getChatByParticipantsId: builder.query({
+      async queryFn({ userId, contactId }) {
         try {
           const q = query(
             collection(db, "chats"),
-            where("participants", "array-contains", userId)
+            where("participants", "array-contains-any", [userId, contactId])
           );
           const querySnapshot = await getDocs(q);
-          const chats = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return { data: chats };
+
+          // Filter to find the chat that has exactly userId and contactId
+          const chat = querySnapshot.docs.find((doc) => {
+            const chatData = doc.data();
+            const participants = chatData.participants;
+
+            return (
+              participants.length === 2 &&
+              participants.includes(userId) &&
+              participants.includes(contactId)
+            );
+          });
+
+          if (chat) {
+            return { data: { id: chat.id, ...chat.data() } };
+          } else {
+            return { data: null }; // No chat found
+          }
         } catch (error) {
           return { error: error.message };
         }
@@ -160,11 +172,12 @@ const apiSlice = createApi({
     }),
     // Send a message to a specific chat
     sendMessage: builder.mutation({
-      async queryFn({ chatId, message }) {
+      async queryFn({ chatId, userId, message }) {
         try {
           const messagesRef = collection(db, `chats/${chatId}/messages`);
           const newMessage = {
             content: message,
+            senderId: userId,
             sendedAt: new Date().toISOString(),
           };
           await addDoc(messagesRef, newMessage);
@@ -245,7 +258,7 @@ export const {
   useGetUsersQuery,
   useGetCurrentUserQuery,
   useGetUserByIdQuery,
-  useGetChatsByUserIdQuery,
+  useGetChatByParticipantsId,
   useGetMessagesByChatIdQuery,
   useGetContactsByUserIdQuery,
   useSignInMutation,
