@@ -1,13 +1,10 @@
 import {
   createBrowserRouter,
   Navigate,
-  redirect,
   RouterProvider,
 } from "react-router-dom";
 import Home from "./routes/homepage.jsx";
-import SingleChatPage, {
-  loader as singleChatPageLoader,
-} from "./features/chats/SingleChatPage.jsx";
+import SingleChatPage from "./features/chats/SingleChatPage.jsx";
 import Auth from "./routes/authpage.jsx";
 import Index from "./routes/index.jsx";
 import SplashScreen from "./components/SplashScreen.jsx";
@@ -28,7 +25,6 @@ export default function App() {
         {
           path: "/contacts/:contactId",
           element: user ? <SingleChatPage /> : <Navigate to="/auth" replace />,
-          loader: singleChatPageLoader,
         },
       ],
     },

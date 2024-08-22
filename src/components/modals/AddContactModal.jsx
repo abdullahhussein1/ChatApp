@@ -40,10 +40,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
             className="size-10 flex-none select-none rounded-full border shadow-2xl"
           />
         </div>
-        <div className="flex flex-col flex-1 gap-1 md:items-start">
-          <p className="font-bold text-sm">{user.username}</p>
-          <p className="text-xs opacity-70">{user.email}</p>
-        </div>
+        <p className="font-bold flex-1 text-sm">{user.username}</p>
         <button
           onClick={() => handleAddContactClick(user)}
           className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-1 border-white hover:border-gray-100"

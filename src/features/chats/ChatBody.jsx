@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { getChatByParticipantsId } from "./chats";
 import { getMessagesBychatId } from "../../data/messages";
 import { user as userDate } from "../../data/user";
-import { getColorById } from "../../data/colors";
 import ChatBubble from "./ChatBubble";
 
 export default function ChatBody({ contact, messagesEndRef }) {

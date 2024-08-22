@@ -48,14 +48,14 @@ export default function ChatFooter({
       />
       <button
         onClick={handleSendMessage}
-        className="absolute right-5 bg-gradient-to-b from-indigo-400 to-blue-500 p-1 rounded-full text-white"
+        className="absolute right-5 active:scale-95 transition-all bg-gradient-to-b from-indigo-400 to-blue-500 p-1 rounded-full text-white"
       >
         <ArrowUp />
       </button>
       {
         <button
           onClick={scrollToBottom}
-          className="absolute -top-12 bg-gradient-to-b bg-white/70 shadow-sm backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
+          className="absolute active:scale-95 transition-all -top-12 bg-gradient-to-b bg-white/70 shadow-sm backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
         >
           <ChevronDown />
         </button>
