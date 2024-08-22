@@ -1,30 +1,26 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { ArrowUp, ChevronDown } from "lucide-react";
-import { chatStarted } from "./chatsSlice";
-import { messageSended } from "../messages/messagesSlice";
-import { user as userDate } from "../../data/user";
-import { getChatByParticipantsId } from "./chats";
+import { useSendMessageMutation } from "../api/apiSlice";
 
 export default function ChatFooter({
-  contact,
+  chatId,
+  userId,
   messagesEndRef = { messagesEndRef },
 }) {
-  const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const [messageInput, setMessageInput] = useState("");
+  const [message, setMessage] = useState("");
+  const [addMessage] = useSendMessageMutation();
 
-  const user = userDate;
+  const handleSendMessage = async () => {
+    if (!message) return;
 
-  const chats = useSelector((state) => state.chats);
-  const chat = getChatByParticipantsId(chats, user.id, contact.id);
-
-  const handleSendMessage = () => {
-    if (!messageInput) return;
-    inputRef.current.focus();
-    dispatch(chatStarted(user.id, contact.id));
-    dispatch(messageSended(chat.id, user.id, messageInput));
-    setMessageInput("");
+    try {
+      await addMessage({ chatId, userId, message }).unwrap();
+      inputRef.current.focus();
+      setMessage("");
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   const scrollToBottom = () => {
@@ -36,8 +32,8 @@ export default function ChatFooter({
       <input
         ref={inputRef}
         type="text"
-        value={messageInput}
-        onChange={(e) => setMessageInput(e.target.value)}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
           if (e.code === "Enter") {
             handleSendMessage();

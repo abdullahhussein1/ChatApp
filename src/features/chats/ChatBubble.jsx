@@ -22,7 +22,7 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
         >
           <p>{message.content}</p>
           <p className="text-[11px] text-white/80 self-end">
-            {message.timestamp.slice(0, 5)}
+            {new Date(message.sendedAt).toLocaleTimeString()}
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
       >
         <p>{message.content}</p>
         <p className="text-[11px] text-black/40 self-end">
-          {message.timestamp.slice(0, 5)}
+          {new Date(message.sendedAt).toLocaleTimeString()}
         </p>
       </div>
     </div>

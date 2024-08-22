@@ -4,12 +4,27 @@ import bgImage from "../../assets/chat-bg-2.jpeg";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
 import ChatFooter from "./ChatFooter";
-import { useGetUserByIdQuery } from "../api/apiSlice";
+import {
+  useGetChatByParticipantsIdQuery,
+  useGetCurrentUserQuery,
+  useGetMessagesByChatIdQuery,
+  useGetUserByIdQuery,
+} from "../api/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
 
 export default function SingleChatPage() {
   const { contactId } = useParams();
   const { data: contact, isLoading } = useGetUserByIdQuery(contactId);
+  const { data: user } = useGetCurrentUserQuery();
+
+  const { data: chat } = useGetChatByParticipantsIdQuery({
+    userId: user.id,
+    contactId,
+  });
+
+  const { data: messages, isLoading: isMessagesLoading } =
+    useGetMessagesByChatIdQuery(chat?.id);
+  console.log(messages);
 
   const messagesEndRef = useRef(null);
 
@@ -35,10 +50,27 @@ export default function SingleChatPage() {
       ) : (
         <>
           <ChatHeader contact={contact} />
-          <ChatBody contact={contact} messagesEndRef={messagesEndRef} />
+          {isMessagesLoading ? (
+            <div className="p-3 bg-white rounded-2xl shadow-2xl shadow-gray-500 animate-in zoom-in-90">
+              <RotatingLines
+                width="25"
+                strokeColor="black"
+                animationDuration="0.75"
+                strokeWidth="3"
+              />
+            </div>
+          ) : (
+            <ChatBody
+              contact={contact}
+              messages={messages}
+              user={user}
+              messagesEndRef={messagesEndRef}
+            />
+          )}
           <ChatFooter
-            contact={contact}
             key={contact.id}
+            chatId={chat?.id}
+            userId={user.id}
             messagesEndRef={messagesEndRef}
           />
         </>

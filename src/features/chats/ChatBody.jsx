@@ -1,19 +1,7 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getChatByParticipantsId } from "./chats";
-import { getMessagesBychatId } from "../../data/messages";
-import { user as userDate } from "../../data/user";
 import ChatBubble from "./ChatBubble";
 
-export default function ChatBody({ contact, messagesEndRef }) {
-  const user = userDate;
-
-  const chats = useSelector((state) => state.chats);
-  const messagesState = useSelector((state) => state.messages);
-
-  const chat = getChatByParticipantsId(chats, user.id, contact.id);
-  const messages = getMessagesBychatId(messagesState, chat?.id);
-
+export default function ChatBody({ contact, messages, user, messagesEndRef }) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };

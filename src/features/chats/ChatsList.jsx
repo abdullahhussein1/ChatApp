@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import {
-  useGetChatByParticipantsId,
   useGetContactsByUserIdQuery,
   useGetCurrentUserQuery,
 } from "../api/apiSlice";

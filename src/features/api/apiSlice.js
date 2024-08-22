@@ -123,11 +123,10 @@ const apiSlice = createApi({
         try {
           const q = query(
             collection(db, "chats"),
-            where("participants", "array-contains-any", [userId, contactId])
+            where("participants", "array-contains", userId)
           );
           const querySnapshot = await getDocs(q);
 
-          // Filter to find the chat that has exactly userId and contactId
           const chat = querySnapshot.docs.find((doc) => {
             const chatData = doc.data();
             const participants = chatData.participants;
@@ -142,7 +141,7 @@ const apiSlice = createApi({
           if (chat) {
             return { data: { id: chat.id, ...chat.data() } };
           } else {
-            return { data: null }; // No chat found
+            return { data: null };
           }
         } catch (error) {
           return { error: error.message };
@@ -154,13 +153,13 @@ const apiSlice = createApi({
       async queryFn(chatId) {
         try {
           const messagesRef = collection(db, `chats/${chatId}/messages`);
-          const messagesQuery = query(messagesRef, orderBy("timestamp", "asc"));
+          const messagesQuery = query(messagesRef, orderBy("sendedAt", "asc"));
           const querySnapshot = await getDocs(messagesQuery);
           const messages = querySnapshot.docs.map((doc) => {
-            const userData = doc.data();
+            const messageData = doc.data();
             return convertTimestamps({
               id: doc.id,
-              ...userData,
+              ...messageData,
             });
           });
           return { data: messages };
@@ -174,6 +173,9 @@ const apiSlice = createApi({
     sendMessage: builder.mutation({
       async queryFn({ chatId, userId, message }) {
         try {
+          if (!userId || !message) {
+            throw new Error("User ID or message content is missing");
+          }
           const messagesRef = collection(db, `chats/${chatId}/messages`);
           const newMessage = {
             content: message,
@@ -258,7 +260,7 @@ export const {
   useGetUsersQuery,
   useGetCurrentUserQuery,
   useGetUserByIdQuery,
-  useGetChatByParticipantsId,
+  useGetChatByParticipantsIdQuery,
   useGetMessagesByChatIdQuery,
   useGetContactsByUserIdQuery,
   useSignInMutation,
