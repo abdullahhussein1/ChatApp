@@ -10,6 +10,7 @@ import {
   setDoc,
   getDoc,
   addDoc,
+  where,
 } from "firebase/firestore";
 
 const convertTimestamps = (data) => {
@@ -118,11 +119,14 @@ const apiSlice = createApi({
       },
     }),
     // Fetch all chats
-    getChats: builder.query({
-      async queryFn() {
+    getChatsByUserId: builder.query({
+      async queryFn(userId) {
         try {
-          const chatRef = collection(db, "chats");
-          const querySnapshot = await getDocs(chatRef);
+          const q = query(
+            collection(db, "chats"),
+            where("participants", "array-contains", userId)
+          );
+          const querySnapshot = await getDocs(q);
           const chats = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -140,39 +144,67 @@ const apiSlice = createApi({
           const messagesRef = collection(db, `chats/${chatId}/messages`);
           const messagesQuery = query(messagesRef, orderBy("timestamp", "asc"));
           const querySnapshot = await getDocs(messagesQuery);
-          const messages = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
+          const messages = querySnapshot.docs.map((doc) => {
+            const userData = doc.data();
+            return convertTimestamps({
+              id: doc.id,
+              ...userData,
+            });
+          });
           return { data: messages };
         } catch (error) {
           return { error: error.message };
         }
       },
+      providesTags: ["message"],
     }),
     // Send a message to a specific chat
     sendMessage: builder.mutation({
       async queryFn({ chatId, message }) {
         try {
           const messagesRef = collection(db, `chats/${chatId}/messages`);
-          await addDoc(messagesRef, message);
+          const newMessage = {
+            content: message,
+            sendedAt: new Date().toISOString(),
+          };
+          await addDoc(messagesRef, newMessage);
           return { data: "Message sent" };
         } catch (error) {
           return { error: error.message };
         }
       },
+      invalidatesTags: ["message"],
     }),
     // Create a new chat
     createChat: builder.mutation({
-      async queryFn({ participants }) {
+      async queryFn(participants) {
         try {
           const chatsRef = collection(db, "chats");
-          const newChat = await addDoc(chatsRef, {
-            participants,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+
+          const q = query(
+            chatsRef,
+            where("participants", "array-contains-any", participants)
+          );
+          const querySnapshot = await getDocs(q);
+
+          const existingChat = querySnapshot.docs.find((doc) => {
+            const chatData = doc.data();
+            return (
+              chatData.participants.length === participants.length &&
+              participants.every((p) => chatData.participants.includes(p))
+            );
           });
-          return { data: { chatId: newChat.id } };
+
+          if (existingChat) {
+            return { data: { chatId: existingChat.id } };
+          } else {
+            const newChat = await addDoc(chatsRef, {
+              participants,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            });
+            return { data: { chatId: newChat.id } };
+          }
         } catch (error) {
           return { error: error.message };
         }
@@ -213,7 +245,7 @@ export const {
   useGetUsersQuery,
   useGetCurrentUserQuery,
   useGetUserByIdQuery,
-  useGetChatsQuery,
+  useGetChatsByUserIdQuery,
   useGetMessagesByChatIdQuery,
   useGetContactsByUserIdQuery,
   useSignInMutation,

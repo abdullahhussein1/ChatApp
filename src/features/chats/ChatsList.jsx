@@ -1,25 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import { getColorById } from "../../data/colors";
 import { getContactById } from "../../data/contacts";
-import { user } from "../../data/user";
+import { user as usr } from "../../data/user";
 import { PinIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { getChatByParticipantsId, getUserChatsByUserId } from "./chats";
 import { getLastMessage } from "../../data/messages";
+import {
+  useGetChatsByUserIdQuery,
+  useGetCurrentUserQuery,
+} from "../api/apiSlice";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function ChatsList() {
   const navigate = useNavigate();
-  const chats = useSelector((state) => state.chats);
+  const chts = useSelector((state) => state.chats);
   const messages = useSelector((state) => state.messages);
+  const { data: user } = useGetCurrentUserQuery();
 
-  const userChats = getUserChatsByUserId(chats, user.id);
+  const userChats = getUserChatsByUserId(chts, usr.id);
+
+  const { data: chats = [], isLoading } = useGetChatsByUserIdQuery(user.id);
+  console.log(chats);
 
   const ChatsRendered =
     userChats.length > 0 &&
     userChats.map((contactId) => {
       const color = getColorById(contactId);
       const contact = getContactById(contactId);
-      const chat = getChatByParticipantsId(chats, user.id, contactId);
+      const chat = getChatByParticipantsId(chts, usr.id, contactId);
 
       const lastMessage = getLastMessage(messages, chat.id);
 
@@ -47,7 +56,7 @@ export default function ChatsList() {
           <div className="flex flex-col flex-1 gap-1">
             <p className="font-bold text-md">{contact.username}</p>
             <p className="text-xs font-light text-gray-500 w-full">
-              {lastMessage.senderId == user.id
+              {lastMessage.senderId == usr.id
                 ? "You: "
                 : lastMessage &&
                   getContactById(lastMessage.senderId)?.username.split(" ")[0] +
@@ -63,6 +72,19 @@ export default function ChatsList() {
         </div>
       );
     });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <RotatingLines
+          width="25"
+          strokeColor="black"
+          animationDuration="0.75"
+          strokeWidth="3"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col px-3 gap-3 overflow-y-auto">

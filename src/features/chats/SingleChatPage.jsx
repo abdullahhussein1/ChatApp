@@ -11,8 +11,6 @@ export default function SingleChatPage() {
   const { contactId } = useParams();
   const { data: contact, isLoading } = useGetUserByIdQuery(contactId);
 
-  console.log(contact);
-
   const messagesEndRef = useRef(null);
 
   return (

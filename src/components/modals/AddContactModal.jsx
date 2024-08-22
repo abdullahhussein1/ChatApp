@@ -3,6 +3,7 @@ import {
   useGetContactsByUserIdQuery,
   useGetCurrentUserQuery,
   useGetUsersQuery,
+  useCreateChatMutation,
 } from "../../features/api/apiSlice";
 import Divider from "../Divider";
 import { PlusIcon } from "lucide-react";
@@ -13,10 +14,12 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
   const { data: users = [] } = useGetUsersQuery();
   const { data: contacts = [] } = useGetContactsByUserIdQuery(user.id);
   const [addContact, { isLoading }] = useAddContactMutation();
+  const [createChat] = useCreateChatMutation();
 
-  const handleAddContactClick = async (contact) => {
+  const handleAddContactClick = (contact) => {
     try {
-      await addContact({ userId: user.id, contact });
+      addContact({ userId: user.id, contact });
+      createChat([user.id, contact.id]);
     } catch (error) {
       console.error(error.messaeg);
     }

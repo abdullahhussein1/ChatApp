@@ -7,11 +7,14 @@ import {
   useGetContactsByUserIdQuery,
   useGetCurrentUserQuery,
 } from "../features/api/apiSlice";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function ContactsList() {
   const navigate = useNavigate();
   const { data: user } = useGetCurrentUserQuery();
-  const { data: contacts = [] } = useGetContactsByUserIdQuery(user.id);
+  const { data: contacts = [], isLoading } = useGetContactsByUserIdQuery(
+    user.id
+  );
 
   function handleContactClick(contactId) {
     navigate(`/contacts/${contactId}`);
@@ -25,6 +28,16 @@ export default function ContactsList() {
         </div>
         <p className="text-xs">Search</p>
       </div>
+      {isLoading && (
+        <div className="flex items-center justify-center size-14">
+          <RotatingLines
+            width="25"
+            strokeColor="black"
+            animationDuration="0.75"
+            strokeWidth="3"
+          />
+        </div>
+      )}
       {contacts.length > 0 &&
         contacts.map((contact) => {
           return (
