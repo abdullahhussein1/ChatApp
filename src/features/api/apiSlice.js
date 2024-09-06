@@ -11,6 +11,7 @@ import {
   getDoc,
   addDoc,
   where,
+  onSnapshot,
 } from "firebase/firestore";
 
 const convertTimestamps = (data) => {
@@ -150,24 +151,42 @@ const apiSlice = createApi({
     }),
     // Fetch messages for a specific chat
     getMessagesByChatId: builder.query({
-      async queryFn(chatId) {
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(chatId, { updateCachedData, cacheEntryRemoved }) {
         try {
           const messagesRef = collection(db, `chats/${chatId}/messages`);
           const messagesQuery = query(messagesRef, orderBy("sendedAt", "asc"));
-          const querySnapshot = await getDocs(messagesQuery);
-          const messages = querySnapshot.docs.map((doc) => {
-            const messageData = doc.data();
-            return convertTimestamps({
-              id: doc.id,
-              ...messageData,
-            });
-          });
-          return { data: messages };
+
+          const unsubscribe = onSnapshot(
+            messagesQuery,
+            (snapshot) => {
+              const messages = snapshot.docs.map((doc) => {
+                const messageData = doc.data();
+                return convertTimestamps({
+                  id: doc.id,
+                  ...messageData,
+                });
+              });
+
+              updateCachedData((draft) => {
+                draft.length = 0; // Clear the existing messages
+                draft.push(...messages); // Add new real-time messages
+              });
+            },
+            (error) => {
+              console.error("Error in Firestore snapshot:", error);
+            }
+          );
+
+          // Wait for the cache entry to be removed
+          await cacheEntryRemoved;
+          // Clean up the real-time listener
+          unsubscribe();
         } catch (error) {
+          console.error("Query function error:", error);
           return { error: error.message };
         }
       },
-      providesTags: ["message"],
     }),
     // Send a message to a specific chat
     sendMessage: builder.mutation({
@@ -188,7 +207,6 @@ const apiSlice = createApi({
           return { error: error.message };
         }
       },
-      invalidatesTags: ["message"],
     }),
     // Create a new chat
     createChat: builder.mutation({

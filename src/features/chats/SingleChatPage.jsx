@@ -24,7 +24,6 @@ export default function SingleChatPage() {
 
   const { data: messages, isLoading: isMessagesLoading } =
     useGetMessagesByChatIdQuery(chat?.id);
-  console.log(messages);
 
   const messagesEndRef = useRef(null);
 
