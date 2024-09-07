@@ -20,7 +20,7 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
               : "rounded-2xl"
           } ${messages[i + 1]?.senderId === message?.senderId && "mr-9"}`}
         >
-          <p>{message.content}</p>
+          <p className="break-all">{message.content}</p>
           <p className="text-[11px] text-white/80 self-end">
             {new Date(message.sendedAt).toLocaleTimeString()}
           </p>
@@ -47,7 +47,7 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
             : "rounded-2xl"
         } ${messages[i + 1]?.senderId === message?.senderId && "ml-9"}`}
       >
-        <p>{message.content}</p>
+        <p className="break-all">{message.content}</p>
         <p className="text-[11px] text-black/40 self-end">
           {new Date(message.sendedAt).toLocaleTimeString()}
         </p>
