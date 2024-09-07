@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
   useGetContactsByUserIdQuery,
@@ -17,15 +17,15 @@ export default function ChatsList() {
   const ChatsRendered =
     contacts.length > 0 &&
     contacts.map((contact) => {
-      function handleChatClick(contactId) {
-        navigate(`/contacts/${contactId}`);
-      }
-
       return (
-        <div
+        <NavLink
+          to={`/contacts/${contact.id}`}
           key={contact.id}
-          className="flex animate-in items-center active:scale-95 transition-all fade-in-0 hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-3 px-3 py-2 w-full"
-          onClick={() => handleChatClick(contact.id)}
+          className={({ isActive }) =>
+            `flex animate-in items-center active:scale-95 transition-all fade-in-0 hover:bg-gray-50/80 border border-white hover:border-gray-100 rounded-2xl cursor-pointer gap-3 px-3 py-2 w-full ${
+              isActive && "bg-gray-50 border-gray-100"
+            }`
+          }
         >
           <img
             draggable="false"
@@ -37,7 +37,7 @@ export default function ChatsList() {
             <p className="font-bold">{contact.username}</p>
             <p className="font-thin text-xs">الحمدلله رب العالمین</p>
           </div>
-        </div>
+        </NavLink>
       );
     });
 
