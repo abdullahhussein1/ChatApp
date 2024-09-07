@@ -3,7 +3,7 @@ import logo from "../assets/chat.png";
 
 export default function SplashScreen() {
   return (
-    <div className="flex h-screen items-center justify-center bg-white">
+    <div className="flex h-dvh items-center justify-center bg-white">
       <div className="flex flex-col animate-pulse items-center gap-3 font-bold">
         <img
           draggable="false"

@@ -28,7 +28,7 @@ export default function SingleChatPage() {
   const messagesEndRef = useRef(null);
 
   return (
-    <div className="relative md:rounded-r-3xl overflow-clip flex max-w-full flex-col w-full h-screen md:h-[95dvh] bg-gray-100">
+    <div className="relative md:rounded-r-3xl overflow-clip flex max-w-full flex-col w-full h-dvh md:h-[95dvh] bg-gray-100">
       <img
         draggable="false"
         src={bgImage}
