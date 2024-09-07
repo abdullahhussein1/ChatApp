@@ -21,7 +21,7 @@ export default function ContactsList() {
   }
 
   return (
-    <nav className="pl-8 flex gap-5 w-full flex-none overflow-x-auto">
+    <nav className="pl-6 flex gap-5 w-full flex-none overflow-x-auto">
       <div className="flex flex-col cursor-pointer active:scale-95 transition-all gap-2 items-center">
         <div className="flex items-center justify-center size-14 bg-gray-100/60  rounded-full">
           <Search />

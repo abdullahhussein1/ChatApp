@@ -9,7 +9,7 @@ export default function HomePageHeader({
   const { data: user } = useGetCurrentUserQuery();
 
   return (
-    <header className="flex justify-between items-center px-6">
+    <header className="flex justify-between items-center px-4">
       <button
         onClick={onUserProfileClick}
         className="flex gap-2 items-center active:scale-95 hover:bg-gray-50/80 border  border-white hover:border-gray-100 transition-all p-2 rounded-2xl"
