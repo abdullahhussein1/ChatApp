@@ -62,19 +62,37 @@ const apiSlice = createApi({
       invalidatesTags: ["auth"],
     }),
     getUsers: builder.query({
-      async queryFn() {
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheEntryRemoved }) {
         try {
           const usersRef = collection(db, "users");
-          const querySnapshot = await getDocs(usersRef);
-          const users = querySnapshot.docs.map((doc) => {
-            const userData = doc.data();
-            return convertTimestamps({
-              id: doc.id,
-              ...userData,
-            });
-          });
-          return { data: users };
+
+          const unsubscribe = onSnapshot(
+            usersRef,
+            (snapshot) => {
+              const users = snapshot.docs.map((doc) => {
+                const userData = doc.data();
+                return convertTimestamps({
+                  id: doc.id,
+                  ...userData,
+                });
+              });
+
+              updateCachedData((draft) => {
+                draft.length = 0;
+                draft.push(...users);
+              });
+            },
+            (error) => {
+              console.error("Error in Firestore snapshot:", error);
+            }
+          );
+
+          await cacheEntryRemoved;
+
+          unsubscribe();
         } catch (error) {
+          console.error("Query function error:", error);
           return { error: error.message };
         }
       },
