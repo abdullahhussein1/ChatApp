@@ -45,7 +45,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
         <p className="font-bold flex-1 text-sm">{user.username}</p>
         <button
           onClick={() => handleAddContactClick(user)}
-          className="hover:bg-gray-50/80 bg-gray-50 border active:scale-95 transition-all text-sm rounded-full px-3 hover:border-gray-100"
+          className="hover:bg-gray-50/80 font-semibold border active:scale-95 transition-all text-sm rounded-full px-3 hover:border-gray-100"
         >
           {isLoading ? (
             <RotatingLines
@@ -55,7 +55,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
               strokeWidth="3"
             />
           ) : (
-            "Add"
+            "Connect"
           )}
         </button>
       </div>
@@ -74,9 +74,11 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute flex gap-2 flex-col max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-3/4 z-50"
+        className="absolute flex gap-1 flex-col max-w-lg justify-center items-center rounded-3xl shadow-2xl animate-in zoom-in-90 bg-white/80 backdrop-blur-md p-5 w-3/4 z-50"
       >
-        <p className="pb-3 text-xl font-semibold">Users List</p>
+        <p className="pb-6 text-xl font-medium">
+          <span className="font-bold">Connect</span> with others
+        </p>
         {renderedUsers.length == 0 && (
           <p className=" text-md">No available users</p>
         )}

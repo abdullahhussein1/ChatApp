@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/chat.png";
+import logo from "../assets/favicon.svg";
 
 export default function SplashScreen() {
   return (
@@ -11,7 +11,7 @@ export default function SplashScreen() {
           alt="app icon"
           className="size-14 flex-none select-none md:size-20"
         />
-        <p className="text-md md:text-2xl">Chat App</p>
+        <p className="text-md md:text-2xl font-mono font-bold">Connect</p>
       </div>
     </div>
   );

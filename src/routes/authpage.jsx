@@ -1,4 +1,4 @@
-import logo from "../assets/chat.png";
+import logo from "../assets/favicon.svg";
 import google from "../assets/google.png";
 import { useSignInMutation } from "../features/api/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
@@ -20,7 +20,7 @@ export default function Auth() {
             alt="app icon"
             className="size-5  flex-none select-none"
           />
-          <p>Chat App</p>
+          <p>Connect</p>
         </div>
         <button
           onClick={handleSignIn}
