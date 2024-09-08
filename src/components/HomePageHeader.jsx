@@ -20,7 +20,7 @@ export default function HomePageHeader({
           alt="User Profile"
           className="size-10 rounded-full flex-none select-none border"
         />
-        <p className="font-bold">{user.username}</p>
+        <p className="font-bold truncate">{user.username}</p>
       </button>
       <button
         onClick={onAddContactClick}
