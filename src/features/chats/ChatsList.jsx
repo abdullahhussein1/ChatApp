@@ -70,11 +70,7 @@ function ChatItem({ contact, currentUser }) {
       <div className="flex flex-col flex-1 truncate">
         <p className="w-fit font-bold">{contact.username}</p>
         <p className="font-thin flex-1 text-xs truncate">
-          {isMessagesLoading
-            ? "Loading..."
-            : lastMessage.senderId == currentUser.id
-            ? "You: " + lastMessage.content
-            : `${contact.username.split(" ")[0]}: ` + lastMessage.content}
+          {isMessagesLoading ? "Loading..." : lastMessage.content}
         </p>
       </div>
     </NavLink>

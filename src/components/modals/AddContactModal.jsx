@@ -46,7 +46,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
         <p className="font-bold flex-1 text-sm">{user.username}</p>
         <button
           onClick={() => handleAddContactClick(user)}
-          className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-1 border-white hover:border-gray-100"
+          className="hover:bg-gray-50/80 border active:scale-95 transition-all text-sm rounded-full px-3 hover:border-gray-100"
         >
           {isLoading ? (
             <RotatingLines
@@ -56,7 +56,7 @@ export default function AddContactModal({ isOpen, onBackgroundClick }) {
               strokeWidth="3"
             />
           ) : (
-            <PlusIcon />
+            "Add"
           )}
         </button>
       </div>
