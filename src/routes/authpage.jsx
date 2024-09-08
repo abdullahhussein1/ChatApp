@@ -13,14 +13,17 @@ export default function Auth() {
   return (
     <div className="p-5 h-[100dvh]  w-screen bg-gray-50">
       <div className="flex relative max-w-xl mx-auto rounded-3xl bg-white p-5 flex-col h-full w-full justify-center items-center">
-        <div className="flex items-center gap-2 absolute top-5 left-5 self-start font-bold">
+        <div className="flex items-center gap-1 absolute top-5 left-5 self-start font-bold">
           <img
             draggable="false"
             src={logo}
             alt="app icon"
-            className="size-5  flex-none select-none"
+            className="size-7  flex-none select-none"
           />
-          <p>Connect</p>
+          <p className="font-mono">Connect</p>
+          <p className="text-gray-500 text-xs font-normal">
+            , your daily chat app
+          </p>
         </div>
         <button
           onClick={handleSignIn}

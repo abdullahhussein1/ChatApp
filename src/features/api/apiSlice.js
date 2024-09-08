@@ -277,13 +277,56 @@ const apiSlice = createApi({
         }
       },
     }),
+    getPendingContactsByUserId: builder.query({
+      providesTags: ["chat"],
+      async queryFn(userId) {
+        try {
+          const contactsRef = collection(db, `users/${userId}/pendingContacts`);
+          const querySnapshot = await getDocs(contactsRef);
+          const contacts = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          return { data: contacts };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+    }),
+    getRequestedContactsByUserId: builder.query({
+      providesTags: ["chat"],
+      async queryFn(userId) {
+        try {
+          const contactsRef = collection(
+            db,
+            `users/${userId}/requestedContacts`
+          );
+          const querySnapshot = await getDocs(contactsRef);
+          const contacts = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          return { data: contacts };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+    }),
     addContact: builder.mutation({
       invalidatesTags: ["chat"],
       async queryFn({ userId, contact }) {
         try {
-          const contactsRef = collection(db, `users/${userId}/contacts`);
+          const contactsRef = collection(
+            db,
+            `users/${contact.id}/pendingContacts`
+          );
+          const requestedContactsRef = collection(
+            db,
+            `users/${userId}/requestedContacts`
+          );
           await addDoc(contactsRef, contact);
-          return { data: "Contact added" };
+          await addDoc(requestedContactsRef, contact);
+          return { data: "Contact Connection Requested" };
         } catch (error) {
           return { error: error.message };
         }
@@ -299,6 +342,8 @@ export const {
   useGetChatByParticipantsIdQuery,
   useGetMessagesByChatIdQuery,
   useGetContactsByUserIdQuery,
+  useGetPendingContactsByUserIdQuery,
+  useGetRequestedContactsByUserIdQuery,
   useSignInMutation,
   useSignOutMutation,
   useAddContactMutation,
