@@ -12,6 +12,7 @@ import {
   addDoc,
   where,
   onSnapshot,
+  deleteDoc,
 } from "firebase/firestore";
 
 const convertTimestamps = (data) => {
@@ -262,71 +263,274 @@ const apiSlice = createApi({
       },
     }),
     getContactsByUserId: builder.query({
-      providesTags: ["chat"],
-      async queryFn(userId) {
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(userId, { updateCachedData, cacheEntryRemoved }) {
         try {
           const contactsRef = collection(db, `users/${userId}/contacts`);
-          const querySnapshot = await getDocs(contactsRef);
-          const contacts = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return { data: contacts };
+
+          const unsubscribe = onSnapshot(
+            contactsRef,
+            (snapshot) => {
+              const contacts = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+
+              updateCachedData((draft) => {
+                draft.length = 0;
+                draft.push(...contacts);
+              });
+            },
+            (error) => {
+              console.error("Error in Firestore snapshot:", error);
+            }
+          );
+
+          await cacheEntryRemoved;
+
+          unsubscribe();
         } catch (error) {
           return { error: error.message };
         }
       },
     }),
     getPendingContactsByUserId: builder.query({
-      providesTags: ["chat"],
-      async queryFn(userId) {
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(userId, { updateCachedData, cacheEntryRemoved }) {
         try {
-          const contactsRef = collection(db, `users/${userId}/pendingContacts`);
-          const querySnapshot = await getDocs(contactsRef);
-          const contacts = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return { data: contacts };
+          const contactsRef = collection(
+            db,
+            `users/${userId}/pendingConnections`
+          );
+
+          const unsubscribe = onSnapshot(
+            contactsRef,
+            (snapshot) => {
+              const contacts = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+
+              updateCachedData((draft) => {
+                draft.length = 0;
+                draft.push(...contacts);
+              });
+            },
+            (error) => {
+              console.error("Error in Firestore snapshot:", error);
+            }
+          );
+
+          await cacheEntryRemoved;
+
+          unsubscribe();
         } catch (error) {
           return { error: error.message };
         }
       },
     }),
     getRequestedContactsByUserId: builder.query({
-      providesTags: ["chat"],
-      async queryFn(userId) {
+      queryFn: () => ({ data: [] }),
+      async onCacheEntryAdded(userId, { updateCachedData, cacheEntryRemoved }) {
         try {
           const contactsRef = collection(
             db,
-            `users/${userId}/requestedContacts`
+            `users/${userId}/requestedConnections`
           );
-          const querySnapshot = await getDocs(contactsRef);
-          const contacts = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          return { data: contacts };
+
+          const unsubscribe = onSnapshot(
+            contactsRef,
+            (snapshot) => {
+              const contacts = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+
+              updateCachedData((draft) => {
+                draft.length = 0;
+                draft.push(...contacts);
+              });
+            },
+            (error) => {
+              console.error("Error in Firestore snapshot:", error);
+            }
+          );
+
+          await cacheEntryRemoved;
+
+          unsubscribe();
         } catch (error) {
           return { error: error.message };
         }
       },
     }),
-    addContact: builder.mutation({
-      invalidatesTags: ["chat"],
-      async queryFn({ userId, contact }) {
+    requestConnection: builder.mutation({
+      async queryFn({ user, contact }) {
         try {
-          const contactsRef = collection(
+          const requestedConnectionRef = collection(
             db,
-            `users/${contact.id}/pendingContacts`
+            `users/${contact.id}/requestedConnections`
           );
-          const requestedContactsRef = collection(
+          const pendingConnectionRef = collection(
             db,
-            `users/${userId}/requestedContacts`
+            `users/${user.id}/pendingConnections`
           );
-          await addDoc(contactsRef, contact);
-          await addDoc(requestedContactsRef, contact);
+          await addDoc(requestedConnectionRef, user);
+          await addDoc(pendingConnectionRef, contact);
           return { data: "Contact Connection Requested" };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+    }),
+    acceptConnection: builder.mutation({
+      async queryFn({ user, contact }) {
+        try {
+          const userConnectionsRef = collection(
+            db,
+            `users/${user.id}/contacts`
+          );
+          const contactConnectionsRef = collection(
+            db,
+            `users/${contact.id}/contacts`
+          );
+          const requestedConnectionRef = collection(
+            db,
+            `users/${user.id}/requestedConnections`
+          );
+          const pendingConnectionRef = collection(
+            db,
+            `users/${contact.id}/pendingConnections`
+          );
+
+          const requestedDocs = await getDocs(requestedConnectionRef);
+          const pendingDocs = await getDocs(pendingConnectionRef);
+
+          const requestedDocToDelete = requestedDocs.docs.find(
+            (doc) => doc.data().id === contact.id
+          );
+          const pendingDocToDelete = pendingDocs.docs.find(
+            (doc) => doc.data().id === user.id
+          );
+
+          if (requestedDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${user.id}/requestedConnections`,
+                requestedDocToDelete.id
+              )
+            );
+          }
+          if (pendingDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${contact.id}/pendingConnections`,
+                pendingDocToDelete.id
+              )
+            );
+          }
+
+          await addDoc(userConnectionsRef, contact);
+          await addDoc(contactConnectionsRef, user);
+
+          return { data: "Contact Connection Accepted" };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+    }),
+    rejectConnection: builder.mutation({
+      async queryFn({ user, contact }) {
+        try {
+          const requestedConnectionRef = collection(
+            db,
+            `users/${user.id}/requestedConnections`
+          );
+          const pendingConnectionRef = collection(
+            db,
+            `users/${contact.id}/pendingConnections`
+          );
+
+          const requestedDocs = await getDocs(requestedConnectionRef);
+          const pendingDocs = await getDocs(pendingConnectionRef);
+
+          const requestedDocToDelete = requestedDocs.docs.find(
+            (doc) => doc.data().id === contact.id
+          );
+          const pendingDocToDelete = pendingDocs.docs.find(
+            (doc) => doc.data().id === user.id
+          );
+
+          if (requestedDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${user.id}/requestedConnections`,
+                requestedDocToDelete.id
+              )
+            );
+          }
+          if (pendingDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${contact.id}/pendingConnections`,
+                pendingDocToDelete.id
+              )
+            );
+          }
+
+          return { data: "Contact Connection Rejected" };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+    }),
+
+    undoConnection: builder.mutation({
+      async queryFn({ user, contact }) {
+        try {
+          const requestedConnectionRef = collection(
+            db,
+            `users/${contact.id}/requestedConnections`
+          );
+          const pendingConnectionRef = collection(
+            db,
+            `users/${user.id}/pendingConnections`
+          );
+
+          const requestedDocs = await getDocs(requestedConnectionRef);
+          const pendingDocs = await getDocs(pendingConnectionRef);
+
+          const requestedDocToDelete = requestedDocs.docs.find(
+            (doc) => doc.data().id === user.id
+          );
+          const pendingDocToDelete = pendingDocs.docs.find(
+            (doc) => doc.data().id === contact.id
+          );
+
+          if (requestedDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${contact.id}/requestedConnections`,
+                requestedDocToDelete.id
+              )
+            );
+          }
+          if (pendingDocToDelete) {
+            await deleteDoc(
+              doc(
+                db,
+                `users/${user.id}/pendingConnections`,
+                pendingDocToDelete.id
+              )
+            );
+          }
+
+          return { data: "Contact Connection Undoed" };
         } catch (error) {
           return { error: error.message };
         }
@@ -346,7 +550,10 @@ export const {
   useGetRequestedContactsByUserIdQuery,
   useSignInMutation,
   useSignOutMutation,
-  useAddContactMutation,
+  useAcceptConnectionMutation,
+  useRejectConnectionMutation,
+  useUndoConnectionMutation,
+  useRequestConnectionMutation,
   useSendMessageMutation,
   useCreateChatMutation,
 } = apiSlice;

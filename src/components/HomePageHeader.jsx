@@ -1,12 +1,17 @@
 import React from "react";
-import { UserPlusIcon } from "lucide-react";
-import { useGetCurrentUserQuery } from "../features/api/apiSlice";
+import { UsersIcon } from "lucide-react";
+import {
+  useGetCurrentUserQuery,
+  useGetRequestedContactsByUserIdQuery,
+} from "../features/api/apiSlice";
 
 export default function HomePageHeader({
   onUserProfileClick,
   onAddContactClick,
 }) {
   const { data: user } = useGetCurrentUserQuery();
+  const { data: requestedConnections = [] } =
+    useGetRequestedContactsByUserIdQuery(user.id);
 
   return (
     <header className="flex justify-between items-center px-4">
@@ -24,9 +29,14 @@ export default function HomePageHeader({
       </button>
       <button
         onClick={onAddContactClick}
-        className="hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100"
+        className="relative hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100"
       >
-        <UserPlusIcon />
+        {requestedConnections.length > 0 && (
+          <div className="flex items-center justify-center text-white text-xs size-4 rounded-full bg-violet-500 absolute top-0 -right-1">
+            {requestedConnections.length}
+          </div>
+        )}
+        <UsersIcon />
       </button>
     </header>
   );
