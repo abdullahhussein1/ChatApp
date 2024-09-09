@@ -31,8 +31,8 @@ export default function HomePageHeader({
         onClick={onAddContactClick}
         className="relative hover:bg-gray-50/80 border active:scale-95 transition-all  rounded-full p-2 border-white hover:border-gray-100"
       >
-        {requestedConnections.length > 0 && (
-          <div className="flex items-center justify-center text-white text-xs size-4 rounded-full bg-purple-600 absolute top-0 -right-1">
+        {requestedConnections.length == 0 && (
+          <div className="flex items-center justify-center text-white text-xs size-4 rounded-full bg-gradient-to-b from-purple-500 to-indigo-500 absolute top-0 -right-1">
             {requestedConnections.length}
           </div>
         )}

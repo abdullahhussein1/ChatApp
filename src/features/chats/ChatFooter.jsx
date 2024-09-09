@@ -1,15 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUp, ChevronDown } from "lucide-react";
 import { useSendMessageMutation } from "../api/apiSlice";
 
-export default function ChatFooter({
-  chatId,
-  userId,
-  messagesEndRef = { messagesEndRef },
-}) {
+export default function ChatFooter({ chatId, userId, messagesEndRef }) {
   const inputRef = useRef(null);
   const [message, setMessage] = useState("");
   const [addMessage] = useSendMessageMutation();
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   const handleSendMessage = async () => {
     if (!message) return;
@@ -18,14 +15,38 @@ export default function ChatFooter({
       await addMessage({ chatId, userId, message }).unwrap();
       inputRef.current.focus();
       setMessage("");
+      scrollToBottom();
     } catch (error) {
       console.error(error.message);
+    }
+  };
+
+  const handleScroll = () => {
+    const chatContainer = messagesEndRef.current?.parentNode;
+    if (chatContainer) {
+      const isBottom =
+        chatContainer.scrollHeight - chatContainer.scrollTop ===
+        chatContainer.clientHeight;
+      setIsAtBottom(isBottom);
     }
   };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const chatContainer = messagesEndRef.current?.parentNode;
+    if (chatContainer) {
+      chatContainer.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (chatContainer) {
+        chatContainer.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [messagesEndRef]);
 
   return (
     <footer className="px-3 pb-3 animate-in slide-in-from-bottom-full duration-300 -mt-8 z-50 relative justify-center flex items-center">
@@ -48,14 +69,14 @@ export default function ChatFooter({
       >
         <ArrowUp />
       </button>
-      {
+      {!isAtBottom && (
         <button
           onClick={scrollToBottom}
-          className="absolute active:scale-95 transition-all -top-12 bg-gradient-to-b bg-white/70 shadow-sm backdrop-blur-md p-1 rounded-full animate-in zoom-in-75"
+          className="absolute active:scale-95 transition-all -top-12 bg-gradient-to-b bg-white/70 shadow-sm backdrop-blur-md p-1 rounded-full animate-in zoom-in-50"
         >
           <ChevronDown />
         </button>
-      }
+      )}
     </footer>
   );
 }
