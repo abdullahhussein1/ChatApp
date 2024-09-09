@@ -6,6 +6,7 @@ import {
   useGetMessagesByChatIdQuery,
 } from "../api/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
+import { format, formatISO } from "date-fns";
 
 export default function ChatsList() {
   const { data: user } = useGetCurrentUserQuery();
@@ -70,9 +71,18 @@ function ChatItem({ contact, currentUser }) {
       <div className="flex flex-col flex-1 truncate">
         <p className="w-fit font-bold">{contact.username}</p>
         <p className="font-thin flex-1 text-xs truncate">
-          {isMessagesLoading ? "Loading..." : lastMessage.content}
+          {isMessagesLoading
+            ? "Loading..."
+            : lastMessage
+            ? lastMessage.content
+            : "New Connection"}
         </p>
       </div>
+      <p className="text-xs self-start text-gray-500">
+        {isMessagesLoading
+          ? "Loading..."
+          : format(new Date(lastMessage.sendedAt), "h:mm a")}
+      </p>
     </NavLink>
   );
 }

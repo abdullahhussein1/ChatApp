@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 
 export default function ChatBubble({ message, messages, i, chatBubbleType }) {
@@ -21,8 +22,8 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
           } ${messages[i + 1]?.senderId === message?.senderId && "mr-9"}`}
         >
           <p className="break-all">{message.content}</p>
-          <p className="text-[11px] text-white/80 self-end">
-            {new Date(message.sendedAt).toLocaleTimeString()}
+          <p className="text-[10px] text-white/80 self-end">
+            {format(new Date(message.sendedAt), "h:mm a")}
           </p>
         </div>
       </div>
@@ -48,8 +49,8 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
         } ${messages[i + 1]?.senderId === message?.senderId && "ml-9"}`}
       >
         <p className="break-all">{message.content}</p>
-        <p className="text-[11px] text-black/40 self-end">
-          {new Date(message.sendedAt).toLocaleTimeString()}
+        <p className="text-[10px] text-black/40 self-end">
+          {format(new Date(message.sendedAt), "h:mm a")}
         </p>
       </div>
     </div>
