@@ -23,7 +23,9 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
         >
           <p className="break-all">{message.content}</p>
           <p className="text-[10px] text-white/80 self-end">
-            {format(new Date(message.sendedAt), "h:mm a")}
+            {message?.sendedAt
+              ? format(new Date(message.sendedAt), "h:mm a")
+              : ""}
           </p>
         </div>
       </div>
@@ -50,7 +52,9 @@ export default function ChatBubble({ message, messages, i, chatBubbleType }) {
       >
         <p className="break-all">{message.content}</p>
         <p className="text-[10px] text-black/40 self-end">
-          {format(new Date(message.sendedAt), "h:mm a")}
+          {message?.sendedAt
+            ? format(new Date(message.sendedAt), "h:mm a")
+            : ""}
         </p>
       </div>
     </div>
