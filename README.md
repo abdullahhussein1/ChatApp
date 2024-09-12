@@ -3,13 +3,17 @@
 Welcome to **Connect**, a modern chat application built with **React**, **Redux Toolkit**, **RTK Query**, **React Router**, **Firebase**, **Tailwind**, and **Vite**. This app allows users to send messages and manage connections (adding, accepting, rejecting, and undoing connections). It features a clean, responsive UI and real-time data powered by Firebase Firestore and Google Authentication.
 
 <div align="center">
-  <img src="src/assets/screenshots/home0.png" alt="Home Page" style="width: 90%; max-width: 610px; height: auto; border-radius: 10px; overflow: hidden;" />
+  <img src="src/assets/screenshots/home0.png" alt="Home Page" style="width: 91%; max-width: 610px; height: auto; border-radius: 10px; overflow: hidden;" />
 </div>
 
 <div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
   <img src="src/assets/screenshots/auth-mobile.PNG" alt="Login Page" style="width: 30%; max-width: 200px; height: auto; border-radius: 10px;" />
   <img src="src/assets/screenshots/home-mobile.PNG" alt="Chat Interface" style="width: 30%; max-width: 200px; height: auto; border-radius: 10px;" />
   <img src="src/assets/screenshots/chat-mobile.PNG" alt="Connection Management" style="width: 30%; max-width: 200px; height: auto; border-radius: 10px;" />
+</div>
+<div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+  <img src="src/assets/screenshots/connections.png" alt="Home Page" style="width: 45%; max-width: 610px; height: auto; border-radius: 10px; overflow: hidden;" />
+  <img src="src/assets/screenshots/user.png" alt="Home Page" style="width: 45%; max-width: 610px; height: auto; border-radius: 10px; overflow: hidden;" />
 </div>
 
 ## Features
