@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6ygxGbbz4itiT8Emr0vZ8H6Ice1Sp-TA",
-  authDomain: "chatapp-c8b0f.firebaseapp.com",
-  projectId: "chatapp-c8b0f",
-  storageBucket: "chatapp-c8b0f.appspot.com",
-  messagingSenderId: "54443343528",
-  appId: "1:54443343528:web:f06fc6568b568ebbb14c9d",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
