@@ -1,6 +1,13 @@
-# Connect - Chat Application
+# Connect
 
 Welcome to **Connect**, a modern chat application built with **React**, **Redux Toolkit**, **RTK Query**, **React Router**, **Firebase**, **Tailwind**, and **Vite**. This app allows users to send messages and manage connections (adding, accepting, rejecting, and undoing connections). It features a clean, responsive UI and real-time data powered by Firebase Firestore and Google Authentication.
+
+<div align="center"><img src="src/assets/screenshots/home0.png" alt="Home Page" width="610" height="auto"/></div>
+<div align="center" style="display: flex;flex-wrap: no-wrap;justify-content: center; gap: 10px;">
+    <img src="src/assets/screenshots/auth-mobile.PNG" alt="Login Page" style="width: 200px; height: auto;" />
+    <img src="src/assets/screenshots/home-mobile.PNG" alt="Chat Interface" style="width: 200px; height: auto;" />
+    <img src="src/assets/screenshots/chat-mobile.PNG" alt="Connection Management" style="width: 200px; height: auto;" />
+</div>
 
 ## Features
 
