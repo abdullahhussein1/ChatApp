@@ -1,7 +1,4 @@
 import { Search } from "lucide-react";
-import { getColorById } from "../data/colors";
-import { getContactById } from "../data/contacts";
-import { user as userDate } from "../data/user";
 import { useNavigate } from "react-router-dom";
 import {
   useGetContactsByUserIdQuery,
